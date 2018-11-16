@@ -15,6 +15,7 @@
   </el-container>
 </template>
 
+
 <script>
 import HeadPage from '@/components/Head.vue'
 import MenuPage from '@/components/Menu.vue'
