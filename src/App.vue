@@ -1,13 +1,15 @@
 <template>
   <div >
     <!--<img src="./assets/logo.png">-->
-    <router-view/>
+ <frame></frame>
   </div>
 </template>
 
 <script>
+  import frame from './components/Frame'
 export default {
-  name: 'App'
+  name: 'App',
+  components: {frame},
 }
 </script>
 
