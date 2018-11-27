@@ -30,21 +30,24 @@
 
 <script>
 export default {
+  created () {
+
+  },
+  data () {
+    return {
+
+    }
+  },
   methods: {
-    async login () {
-      console.log('ok')
-      let ob1 =  this.$http.get('/api' + '/test?userName=liu').then(x => console.log(x)).then(x=>console.log(x))
-      console.log('ob1')
-      console.log(ob1)
+    login () {
+      let ob1
+      this.$http.get('/api' + '/test?userName=liu').then(x => {
+        ob1 = x.body
+        console.log(ob1)
+      })
       let data = {userName: 'jia'}
-      let ob2 = this.$http.post('/api' + '/test',data)
-      console.log('ob2')
-      console.log(ob2)
+      this.$http.post('/api' + '/test', data).then(x => ob1 = x.body)
     }
   }
 }
 </script>
-
-<style scoped>
-
-</style>
