@@ -17,7 +17,7 @@
         </el-col>
       </el-form-item>
       <el-form-item label="密码" >
-        <el-col :span="4">
+        <el-col :span="6">
         <el-input type="password" ></el-input>
         </el-col>
       </el-form-item>
@@ -33,11 +33,13 @@ export default {
   methods: {
     async login () {
       console.log('ok')
-      let ob1 =  this.$http.get('/api' + '/test?userName=liu').then(x => console.log(x)).then(x=>console.log(x))
+      let ob1 = this.$http.get('/api' + '/test?userName=liu').then(x => {
+        console.log(x)
+      })
       console.log('ob1')
       console.log(ob1)
       let data = {userName: 'jia'}
-      let ob2 = this.$http.post('/api' + '/test',data)
+      let ob2 = this.$http.post('/api' + '/test', data)
       console.log('ob2')
       console.log(ob2)
     }
