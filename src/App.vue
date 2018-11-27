@@ -6,10 +6,10 @@
 </template>
 
 <script>
-  import frame from './components/Frame'
+import frame from './components/Frame'
 export default {
   name: 'App',
-  components: {frame},
+  components: {frame}
 }
 </script>
 
