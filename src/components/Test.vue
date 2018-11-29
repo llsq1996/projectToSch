@@ -18,6 +18,15 @@
 </template>
 <script type="text/ecmascript-6">
 export default {
+  mounted () {
+    var userSession = this.getCookie('session')
+    if (userSession) {
+      this.sysUserName = userSession || ''
+    }
+  },
+  created () {
+
+  },
   data () {
     return {
       sysUserName: '',
@@ -25,18 +34,13 @@ export default {
       collapsed: false
     }
   },
-  mounted () {
-    var userSession = this.getCookie('session')
-    if (userSession) {
-      this.sysUserName = userSession || ''
-    }
-  },
   methods: {
     // 退出
     logout () {
+      this.sysUserName = 'abc'
       this.$confirm('确认要退出吗？', '提示', {}).then(() => {
         this.$fetch('m/logout').then((res) => {
-          if (res.errCode == 200) {
+          if (res.errCode === 200) {
             this.delCookie('session')
             this.delCookie('u_uuid')
             this.$router.push({path: '/', query: {redirect: this.$router.currentRoute.fullPath}})
