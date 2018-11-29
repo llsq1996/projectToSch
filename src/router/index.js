@@ -10,6 +10,7 @@ export default new Router({
   routes: [
     {
       path: '/',
+      redirect: '/index',
       name: 'index',
       component: Frame,
       children: [
