@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Test from '@/components/Testt'
+import Frame from '@/components/Frame'
+import Index from '@/components/index'
+import Login from '@/components/Login'
 
 Vue.use(Router)
 
@@ -8,12 +10,20 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'Test',
-      component: Test,
-      meta: {
-        keepAlive: true
-      }
+      name: 'index',
+      component: Frame,
+      children: [
+        {path: '/index', name: '首页', component: Index},
+        {path: '/shopAdd', name: '添加', component: Index},
+        {path: '/shopList', name: '列表', component: Index}
+      ]
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: Login
     }
+
     //   path: '/',
     //   redirect: '/dashboard',
     //   name: 'Container',

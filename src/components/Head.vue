@@ -17,7 +17,7 @@
         <el-submenu style="text-align: center" index="/">
           <template slot="title"><span>{{userName}}</span></template>
           <el-menu-item index="/login" style="text-align: center;">登录</el-menu-item>
-          <el-menu-item index="/logout" style="text-align: center;">注销</el-menu-item>
+          <el-menu-item index="/login" @click="logout" style="text-align: center;">注销</el-menu-item>
         </el-submenu>
       </el-col>
     </el-menu>
@@ -27,10 +27,16 @@
 <script>
 export default {
   name: 'Head',
+  created () {
+    console.log(this.userName)
+    let name = this.Cookie.getCookie('user')
+    if (name) {
+      this.userName = unescape(name)
+    }
+  },
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App',
-      userName: 'liujiashu'
+      userName: '未登录'
     }
   },
   methods: {
@@ -42,6 +48,12 @@ export default {
     },
     handleSelect (key, keyPath) {
       console.log(key, keyPath)
+    },
+    logout () {
+      this.Cookie.delCookie('user')
+      this.$router.push({
+        name: 'login'
+      })
     }
   }
 }

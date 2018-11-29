@@ -1,7 +1,7 @@
 <template>
   <div >
     <!--<img src="./assets/logo.png">-->
- <frame></frame>
+   <router-view/>
   </div>
 </template>
 
@@ -9,7 +9,9 @@
 import frame from './components/Frame'
 export default {
   name: 'App',
-  components: {frame}
+  components: {frame},
+  created () {
+  }
 }
 </script>
 

@@ -10,25 +10,25 @@
              @close="handleClose"
              @Select="handleSelect"
     >
-      <el-submenu index="/1">
+      <el-submenu index="/">
         <template slot="title">
           <i class="el-icon-menu" style="color: #B8840B"></i>
           <span >门店管理</span>
         </template>
         <el-menu-item-group>
-          <el-menu-item index="/">门店录入录入</el-menu-item>
-          <el-menu-item index="/logout">门店列表</el-menu-item>
+          <el-menu-item index="/shopAdd">门店录入录入</el-menu-item>
+          <el-menu-item index="/shopList">门店列表</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
 
-      <el-submenu index="/2">
+      <el-submenu index="/">
         <template slot="title">
           <i class="el-icon-menu" style="color: #B8840B"></i>
           <span >人员管理</span>
         </template>
         <el-menu-item-group>
-          <el-menu-item index="/">人员录入</el-menu-item>
-          <el-menu-item index="/logout">人员列表</el-menu-item>
+          <el-menu-item index="/shopAdd">人员录入</el-menu-item>
+          <el-menu-item index="/shopList">人员列表</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
     </el-menu>

@@ -25,9 +25,17 @@ export default {
     Head: Head,
     Menu: Menu
   },
+  created () {
+    let name = this.Cookie.getCookie('user')
+    if (!name) {
+      this.$router.push({
+        name: 'login',
+      })
+    }
+  },
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App',
+      msg: 'Welcome to Your Vue.js App'
     }
   },
   methods: {
