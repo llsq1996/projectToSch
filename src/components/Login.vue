@@ -73,7 +73,8 @@ export default {
       // let data = {userName: 'jia'}
       // this.$http.post('/api' + '/test', data).then(x => ob1 = x.body)
       this.Cookie.setCookie('user', this.originData.user)
-      console.log(this.originData.user);
+      console.log(this.originData.user)
+      console.log(this.originData.password)
       this.$router.push({
         name: 'index'
       })
