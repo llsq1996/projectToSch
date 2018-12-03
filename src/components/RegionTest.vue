@@ -12,7 +12,7 @@ export default {
   created () {
     let url = '省份'
     // 存储省份，希望后台返回json对象数组例如[{pid:2,provincal:'北京'},{pid:2,provincal:'北京'}]
-    this.proviincals = this.$http.get('/Api' + url)
+   // this.proviincals = this.$http.get('/Api' + url)
   },
   data () {
     return {
