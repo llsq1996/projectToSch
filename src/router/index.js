@@ -3,7 +3,7 @@ import Router from 'vue-router'
 import Frame from '@/components/Frame'
 import Index from '@/components/index'
 import Login from '@/components/Login'
-import Add from '@/components/ShopAdd'
+import Add from '@/components/pages/ShopAdd'
 Vue.use(Router)
 
 export default new Router({
