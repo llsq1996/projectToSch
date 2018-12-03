@@ -17,7 +17,7 @@
         </template>
         <el-menu-item-group>
           <el-menu-item index="/shopAdd">门店录入录入</el-menu-item>
-          <el-menu-item index="/shopList">门店列表</el-menu-item>
+          <el-menu-item index="/RegionTest">门店列表</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
 
