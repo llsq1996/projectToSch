@@ -48,9 +48,12 @@
         <el-form-item label="logo" prop="upload">
           <el-upload
             :auto-upload="false"
-            action="picUpload"
+            :action="uploadUrl"
             list-type="picture-card"
+            ref="newUpload"
+            :data="uploadData"
             :limit="4"
+            :file-list="pictureList"
             :on-preview="handlePictureCardPreview"
             :on-remove="handleRemove"
             :before-upload="handleBefore">
@@ -99,8 +102,9 @@ export default {
       ],
       dialogImageUrl: '',
       dialogVisible: false,
-      picUpload: '/api/pic',
+      uploadUrl: '/api/pic',
       pictureList: [],
+      uploadData: {name:''}
     }
   },
   methods: {
@@ -114,13 +118,17 @@ export default {
     },
     handleBefore (file) {
       console.log(file)
+      let types = file.type.split('/')
+      console.log(types)
+      this.uploadData.name = file.name
     },
     formSubmit () {
-      console.log(this.pictureList)
+      console.log('submit')
+      this.$refs.newUpload.submit()
     },
     resetForm (formName) {
       this.$refs[formName].resetFields()
-    },
+    }
   }
 }
 </script>
