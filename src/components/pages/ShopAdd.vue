@@ -104,7 +104,7 @@ export default {
       dialogVisible: false,
       uploadUrl: '/api/pic',
       pictureList: [],
-      uploadData: {name:''}
+      uploadData: {name: ''}
     }
   },
   methods: {
@@ -124,7 +124,12 @@ export default {
     },
     formSubmit () {
       console.log('submit')
-      this.$refs.newUpload.submit()
+      this.$http.post('/api/shopAdd', this.originData).then(ref => {
+        if (ref) {
+          console.log(ref)
+        }
+      })
+      //this.$refs.newUpload.submit()
     },
     resetForm (formName) {
       this.$refs[formName].resetFields()
