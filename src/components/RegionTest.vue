@@ -3,6 +3,7 @@
     :options="options2"
     @active-item-change="handleItemChange"
     :props="props"
+    :value="areas"
   ></el-cascader>
 </template>
 
@@ -12,41 +13,49 @@ export default {
   created () {
     let url = '省份'
     // 存储省份，希望后台返回json对象数组例如[{pid:2,provincal:'北京'},{pid:2,provincal:'北京'}]
-   // this.proviincals = this.$http.get('/Api' + url)
+    // this.proviincals = this.$http.get('/Api' + url)
   },
   data () {
     return {
       options2: [{
         label: '江苏',
-        cities: [
-          {
-            label: '南京'
-          },
-          {
-            label: 'hha'
-          }
-        ]
+        value: '001',
+        children: [{
+          label: '西州',
+          value: '00023',
+          children: [
+            {
+              label: 'xxx大学',
+              value: '0003'
+            }
+          ]
+        }]
       }, {
-        label: '浙江',
-        cities: [
-          {
-            label: '苏北'
-          },
-          {
-            label: '如今'
-          }
-        ]
+        label: '南京',
+        value: '002',
+        children: [{
+          label: '亮州',
+          value: '0094',
+          children: [
+            {
+              label: 'xxx小学',
+              value: '0045'
+            }
+          ]
+        }]
       }],
       props: {
-        value: 'label',
-        children: 'cities'
+        label: 'label',
+        value: 'value',
+        children: 'children'
       },
-      proviincals: {}
+      proviincals: {},
+      areas: []
     }
   },
   methods: {
-    //选择省份后，触发此函数，向后台发送get请求携带此省份id，收到返回的城市json对象数组[{city:''},{city:''}]
-    //插入组件对应省份的城市
+    // 选择省份后，触发此函数，向后台发送get请求携带此省份id，收到返回的城市json对象数组[{city:''},{city:''}]
+    // 插入组件对应省份的城市
     handleItemChange (val) {
       console.log('active item:', val)
       setTimeout(_ => {
@@ -60,6 +69,7 @@ export default {
           }]
         }
       }, 300)
+      console.log(this.areas);
     }
   }
 }
