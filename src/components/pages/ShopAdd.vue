@@ -40,10 +40,13 @@
             <el-input  placeholder="请输入电话" v-model="originData.cusPhone" clearable></el-input>
           </el-col>
         </el-form-item>
-        <el-form-item label="地址" prop="address"  required>
-          <el-col :span="15">
-            <el-input  placeholder="请输入地址" v-model="originData.address" clearable></el-input>
-          </el-col>
+        <el-form-item label="地址" prop="addressList"  required>
+          <el-cascader
+            :options="options2"
+            @active-item-change="handleItemChange"
+            :props="props"
+            v-model="originData.addressList"
+          ></el-cascader>
         </el-form-item>
         <el-form-item label="logo" prop="upload">
           <el-upload
@@ -77,7 +80,25 @@
 export default {
   name: 'ShopAdd',
   created () {
-
+    this.$http.get('/api/getProvince').then(ref => {
+      if (ref.body.code === 1) {
+        let data = ref.body.data
+        data.forEach(x => {
+          let opt = {
+            label: x.province,
+            value: x.provinceid,
+            children: []
+          }
+          this.options2.push(opt)
+        })
+      } else {
+        this.$message({
+          showClose: true,
+          message: '服务器返回错误',
+          type: 'error'
+        })
+      }
+    })
   },
   data () {
     return {
@@ -104,7 +125,14 @@ export default {
       dialogVisible: false,
       uploadUrl: '/api/pic',
       pictureList: [],
-      uploadData: {name: ''}
+      uploadData: {name: ''},
+      options2: [],
+      props: {
+        label: 'label',
+        value: 'value',
+        children: 'children'
+      },
+      area: []
     }
   },
   methods: {
@@ -123,16 +151,84 @@ export default {
       this.uploadData.name = file.name
     },
     formSubmit () {
-      console.log('submit')
+      console.log(this.originData)
       this.$http.post('/api/shopAdd', this.originData).then(ref => {
-        if (ref) {
-          console.log(ref)
+        if (ref.body.code === 1) {
+          this.$message({
+            showClose: true,
+            message: '提交成功',
+            type: 'success'
+          })
         }
       })
-      //this.$refs.newUpload.submit()
+      // this.$refs.newUpload.submit()
     },
     resetForm (formName) {
       this.$refs[formName].resetFields()
+    },
+    handleItemChange (val) {
+      console.log(this.area)
+      if (val.length === 1) {
+        // 如果遍历到的省份就是选择的省份，同时该省份下的市没有插入，则插入这个省份的市
+        this.options2.forEach(i => {
+          if (i.value === val[0]) {
+            if (i.children.length === 0) {
+              // 按照省查询市
+              this.$http.get('/api/getCity?provinceId=' + val[0]).then(ref => {
+                if (ref.body.code === 1) {
+                  let data = ref.body.data
+                  // 将根据省份的id查询到的市包装插入
+                  data.forEach(x => {
+                    let opt = {
+                      label: x.city,
+                      value: x.cityid,
+                      children: []
+                    }
+                    i.children.push(opt)
+                  })
+                } else {
+                  this.$message({
+                    showClose: true,
+                    message: '服务器返回错误',
+                    type: 'error'
+                  })
+                }
+              })
+            }
+          }
+        })
+      } else if (val.length === 2) {
+        this.options2.forEach(each => {
+          // 找省
+          if (each.value === val[0]) {
+            each.children.forEach(t => {
+              // 找市
+              if (t.value === val[1]) {
+                if (t.children.length === 0) {
+                  this.$http.get('/api/getArea?cityId=' + val[1]).then(ref => {
+                    if (ref.body.code === 1) {
+                      let data = ref.body.data
+                      data.forEach(x => {
+                        let opt = {
+                          label: x.area,
+                          value: x.areaid
+                        }
+                        t.children.push(opt)
+                      })
+                    } else {
+                      this.$message({
+                        showClose: true,
+                        message: '服务器返回错误',
+                        type: 'error'
+                      })
+                    }
+                  })
+                }
+              }
+            })
+          }
+        })
+      }
     }
   }
 }
