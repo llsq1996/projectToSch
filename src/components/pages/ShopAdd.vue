@@ -151,8 +151,16 @@ export default {
       this.uploadData.name = file.name
     },
     formSubmit () {
-      console.log(this.originData)
-      this.$http.post('/api/shopAdd', this.originData).then(ref => {
+      let str = ''
+      //深层复制
+      let shop = JSON.parse(JSON.stringify(this.originData))
+      shop.addressList.forEach(x => {
+        console.log('x:', x)
+        str += x + ','
+      })
+      shop.addressList = str
+      console.log(shop)
+      this.$http.post('/api/shopAdd', shop).then(ref => {
         if (ref.body.code === 1) {
           this.$message({
             showClose: true,
