@@ -9,9 +9,9 @@
         <hr/>
         <br/>
       </el-col>
-      <el-form ref="originData" :model="originData" label-width="110px" size="medium ">
+      <el-form ref="originData" :model="originData" label-width="120px" size="medium ">
         <el-form-item label="类别" prop="category"  required>
-          <el-select v-model="originData.category" placeholder="请选择">
+          <el-select v-model="originData.category" >
             <el-option
               v-for="item in category"
               :key="item.label"
@@ -20,13 +20,23 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="名称" prop="spName" required>
-          <el-col :span="10">
+        <el-form-item label="商家名称" prop="spName" required>
+          <el-col :span="12">
             <el-input  placeholder="请输入名称" v-model="originData.spName" clearable></el-input>
           </el-col>
         </el-form-item>
-        <el-form-item label="负责人" prop="leader"  required>
-          <el-col :span="10">
+        <el-form-item label="品牌商家" pror="isTradeMark" required>
+          <el-select v-model="originData.isTradeMark" >
+            <el-option
+              v-for="item in isTradeMark"
+              :key="item.label"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="商家负责人" prop="leader"  required>
+          <el-col :span="8">
             <el-input  placeholder="请输入负责人" v-model="originData.leader" clearable></el-input>
           </el-col>
         </el-form-item>
@@ -48,7 +58,7 @@
             v-model="originData.addressList"
           ></el-cascader>
         </el-form-item>
-        <el-form-item label="logo" prop="upload">
+        <el-form-item label="资质logo" prop="logo">
           <el-upload
             :auto-upload="false"
             :action="uploadUrl"
@@ -59,14 +69,32 @@
             :file-list="pictureList"
             :on-preview="handlePictureCardPreview"
             :on-remove="handleRemove"
-            :before-upload="handleBefore">
+            :before-upload="handleBefore"
+            :on-success="handPicSuccess">
             <i class="el-icon-plus"></i>
-            <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb</div>
+            <div class="el-upload__tip" slot="tip">只能上传jpg文件，且不超过500kb</div>
           </el-upload>
           <el-dialog :visible.sync="dialogVisible">
             <img width="100%" :src="dialogImageUrl" alt="">
           </el-dialog>
         </el-form-item>
+        <el-form-item label="品牌商家文档" prop="world">
+          <el-upload
+            class="upload-demo"
+            :auto-upload="false"
+            :action="uploadUrlExcel"
+            ref="excUpload"
+            :limit="1"
+            :before-upload="handleBeforeExcel"
+            :on-exceed="handleExceed"
+            :on-success="handExSuccess"
+            :data="fileData"
+            :file-list="fileList">
+            <el-button size="small" type="primary">点击上传</el-button>
+            <div slot="tip" class="el-upload__tip">只能上传.xls和.xlsx的excel文件，且不超过1Mb,非品牌商家不会上传</div>
+          </el-upload>
+        </el-form-item>
+        <el-col><br/></el-col>
         <el-form-item>
           <el-button type="primary" @click="formSubmit()">提交</el-button>
           <el-button type="danger" @click="resetForm('originData')">重置</el-button>
@@ -102,7 +130,11 @@ export default {
   },
   data () {
     return {
-      originData: {},
+      originData: {
+        category: 1,
+        isTradeMark: 0
+      },
+      id: '',
       category: [
         {
           label: '药品鲜花',
@@ -121,11 +153,26 @@ export default {
           value: 4
         }
       ],
+      isTradeMark: [
+        {
+          label: '非品牌商家',
+          value: 0
+        },
+        {
+          label: '品牌商家',
+          value: 1
+        }
+      ],
       dialogImageUrl: '',
       dialogVisible: false,
       uploadUrl: '/api/pic',
       pictureList: [],
-      uploadData: {name: ''},
+      uploadData: {name: '', id: ''},
+      picSuccess: false,
+      uploadUrlExcel: '/api/excel',
+      fileList: [],
+      fileData: {name: '', id: ''},
+      fileSuccess: false,
       options2: [],
       props: {
         label: 'label',
@@ -146,33 +193,90 @@ export default {
     },
     handleBefore (file) {
       console.log(file)
-      let types = file.type.split('/')
+      let types = file.name.split('.')
       console.log(types)
+      if (types[1] !== 'jpg') {
+        this.$message.error('上传文件类型错误，已取消该文件上传')
+        return false
+      }
       this.uploadData.name = file.name
     },
+    handleBeforeExcel (file) {
+      console.log(file)
+      let types = file.name.split('.')
+      console.log(types)
+      if (types[1] !== 'xls' && types[1] !== 'xlsx') {
+        this.$message.error('上传文件类型错误，已取消该文件上传')
+        return false
+      }
+      this.fileData.name = file.name
+    },
+    handleExceed (files, fileList) {
+      this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`)
+    },
+    handPicSuccess (response, file, fileList) {
+      this.picSuccess = true
+    },
+    handExSuccess (response, file, fileList) {
+      this.fileSuccess = true
+    },
     formSubmit () {
-      let str = ''
-      //深层复制
-      let shop = JSON.parse(JSON.stringify(this.originData))
-      shop.addressList.forEach(x => {
-        console.log('x:', x)
-        str += x + ','
-      })
-      shop.addressList = str
-      console.log(shop)
-      this.$http.post('/api/shopAdd', shop).then(ref => {
-        if (ref.body.code === 1) {
-          this.$message({
-            showClose: true,
-            message: '提交成功',
-            type: 'success'
+      // 若已提交，但图片或文档格式错误，只重复提交图片或文档
+      if (this.id) {
+        // 提交图片
+        console.log(this.id)
+        if (!this.picSuccess) {
+          this.uploadData.id = this.id
+          this.$refs.newUpload.submit()
+        }
+        if (!this.fileSuccess && this.originData.isTradeMark === 1) {
+          this.fileData.id = this.id
+          this.$refs.excUpload.submit()
+        }
+      } else {
+        // 将要提交的对象先复制一份，对复制后的对象进行处理后提交
+        let str = ''
+        // 深层复制
+        let shop = JSON.parse(JSON.stringify(this.originData))
+        if (shop.addressList) {
+          shop.addressList.forEach(x => {
+            console.log('x:', x)
+            str += x + ','
           })
         }
-      })
-      // this.$refs.newUpload.submit()
+        shop.addressList = str
+        console.log(shop)
+        // 首次提交门店信息
+        this.$http.post('/api/shopAdd', shop).then(ref => {
+          if (ref.body.code === 1) {
+            this.$message({
+              showClose: true,
+              message: '提交成功',
+              type: 'success'
+            })
+            // 再提交图片和excel
+            if (ref.body.data) {
+              this.id = ref.body.data
+              this.uploadData.id = ref.body.data
+              this.$refs.newUpload.submit()
+              if (shop.isTradeMark === 1) {
+                this.fileData.id = ref.body.data
+                this.$refs.excUpload.submit()
+              }
+            }
+          } else {
+            this.$message({
+              showClose: true,
+              message: ref.body.message,
+              type: 'error'
+            })
+          }
+        })
+      }
     },
     resetForm (formName) {
       this.$refs[formName].resetFields()
+      this.id = ''
     },
     handleItemChange (val) {
       console.log(this.area)

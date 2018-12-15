@@ -10,8 +10,8 @@
              @close="handleClose"
              @Select="handleSelect"
     >
-      <el-col :span="2" :offset="6" >
-        <h4 style="color:#ffff;">商家信息管理</h4>
+      <el-col :span="3" :offset="6" >
+        <h4 style="color:#ffff;">商家信息管理与审核</h4>
       </el-col>
       <el-col :span="2" :offset="10">
         <el-submenu style="text-align: center" index="/">

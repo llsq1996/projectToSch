@@ -1,5 +1,5 @@
 <template>
-  <div style="background-color:#727272; height: 600px;">
+  <div style="background-color:#727272; height: 900px;">
     <aside>
     <el-menu router
              class="el-menu-vertical-demo"
@@ -36,20 +36,20 @@
   </div>
 </template>
 <script>
-  export default {
-    name: 'Menu',
-    methods: {
-      handleOpen (key, keyPath) {
-        console.log(key, keyPath)
-      },
-      handleClose (key, keyPath) {
-        console.log(key, keyPath)
-      },
-      handleSelect (key, keyPath) {
-        console.log(key, keyPath)
-      }
+export default {
+  name: 'Menu',
+  methods: {
+    handleOpen (key, keyPath) {
+      console.log(key, keyPath)
+    },
+    handleClose (key, keyPath) {
+      console.log(key, keyPath)
+    },
+    handleSelect (key, keyPath) {
+      console.log(key, keyPath)
     }
   }
+}
 </script>
 
 <style scoped>

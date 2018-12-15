@@ -1,9 +1,5 @@
 <template>
   <div>
-
-    <el-button @click="areaTest">
-      点击你这头猪hhhh
-    </el-button>
   </div>
 
 </template>
