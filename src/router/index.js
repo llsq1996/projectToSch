@@ -4,7 +4,7 @@ import Frame from '@/components/Frame'
 import Index from '@/components/index'
 import Login from '@/components/Login'
 import Add from '@/components/pages/ShopAdd'
-import Region from '@/components/RegionTest'
+import ShopList from '@/components/pages/ShopList'
 Vue.use(Router)
 
 export default new Router({
@@ -17,8 +17,7 @@ export default new Router({
       children: [
         {path: '/index', name: 'index', component: Index},
         {path: '/shopAdd', name: 'shopAdd', component: Add},
-        {path: '/shopList', name: 'shopList', component: Index},
-        {path: '/RegionTest', name: 'RegionTest', component: Region}
+        {path: '/shopList', name: 'shopList', component: ShopList}
       ]
     },
     {
