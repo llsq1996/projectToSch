@@ -36,11 +36,11 @@ export default {
   components: {
     Head: Head
   },
-  created(){
+  created () {
     let name = this.Cookie.getCookie('user')
-    if(name){
+    if (name) {
       this.$router.push({
-        name: 'index',
+        name: 'index'
       })
     }
   },
@@ -65,18 +65,19 @@ export default {
       this.$refs[formName].resetFields()
     },
     login () {
-      // let ob1
-      // this.$http.get('/api' + '/test?userName=liu').then(x => {
-      //   ob1 = x.body
-      //   console.log(ob1)
-      // })
-      // let data = {userName: 'jia'}
-      // this.$http.post('/api' + '/test', data).then(x => ob1 = x.body)
-      this.Cookie.setCookie('user', this.originData.user)
-      console.log(this.originData.user)
-      console.log(this.originData.password)
-      this.$router.push({
-        name: 'index'
+      let data = {
+        userName: this.originData.user,
+        password: this.originData.password
+      }
+      this.$http.post('/api' + '/login', data).then(x => {
+        if (x.body.code === 1) {
+          this.Cookie.setCookie('user', this.originData.user)
+          this.$router.push({
+            name: 'index'
+          })
+        } else {
+          this.$message.error(x.body.msg)
+        }
       })
     }
   }

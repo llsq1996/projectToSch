@@ -13,21 +13,43 @@
       <el-submenu index="/">
         <template slot="title">
           <i class="el-icon-menu" style="color: #B8840B"></i>
-          <span >门店管理</span>
+          <span >商家管理</span>
         </template>
         <el-menu-item-group>
-          <el-menu-item index="/shopAdd">门店录入录入</el-menu-item>
-          <el-menu-item index="/shopList">门店列表</el-menu-item>
+          <el-menu-item index="/shopAdd">商家入驻</el-menu-item>
+          <el-menu-item index="/shopList">商家列表</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
 
-      <el-submenu index="/">
+      <el-submenu index="/audit">
+        <template slot="title">
+          <i class="el-icon-menu" style="color: #B8840B"></i>
+          <span >审核管理</span>
+        </template>
+        <el-menu-item-group>
+          <el-menu-item index="/shopAdd">商家审核</el-menu-item>
+          <el-menu-item index="/shopList">审核列表</el-menu-item>
+        </el-menu-item-group>
+      </el-submenu>
+
+      <el-submenu index="/count">
+        <template slot="title">
+          <i class="el-icon-menu" style="color: #B8840B"></i>
+          <span >统计管理</span>
+        </template>
+        <el-menu-item-group>
+          <el-menu-item index="/shopAdd">商家类别统计</el-menu-item>
+          <el-menu-item index="/shopList">商家入驻统计</el-menu-item>
+          <el-menu-item index="/shopList">人员统计</el-menu-item>
+        </el-menu-item-group>
+      </el-submenu>
+      <el-submenu index="/people">
         <template slot="title">
           <i class="el-icon-menu" style="color: #B8840B"></i>
           <span >人员管理</span>
         </template>
         <el-menu-item-group>
-          <el-menu-item index="/shopAdd">人员录入</el-menu-item>
+          <el-menu-item index="/userAdd">人员录入</el-menu-item>
           <el-menu-item index="/shopList">人员列表</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
