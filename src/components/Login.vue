@@ -7,6 +7,7 @@
     <el-col>
       <br/> <br/> <br/> <br/>
     </el-col>
+      <div >
       <el-col :span="18" :offset="6">
         <el-form :model="originData" ref="originData" label-position="right" label-width="80px" size="medium" >
           <el-form-item label="用户" prop="user" >
@@ -25,6 +26,7 @@
           </el-form-item>
         </el-form>
       </el-col>
+      </div>
     </el-row>
   </div>
 </template>

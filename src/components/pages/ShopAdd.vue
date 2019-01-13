@@ -20,6 +20,16 @@
             </el-option>
           </el-select>
         </el-form-item>
+        <el-form-item label="配送方式" prop="delivery"  required>
+          <el-select v-model="originData.delivery" >
+            <el-option
+              v-for="item in delivery"
+              :key="item.label"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
+        </el-form-item>
         <el-form-item label="商家名称" prop="spName" required>
           <el-col :span="12">
             <el-input  placeholder="请输入名称" v-model="originData.spName" clearable></el-input>
@@ -132,7 +142,8 @@ export default {
     return {
       originData: {
         category: 1,
-        isTradeMark: 0
+        isTradeMark: 0,
+        delivery: 1
       },
       id: '',
       category: [
@@ -150,6 +161,24 @@ export default {
         },
         {
           label: '便利店',
+          value: 4
+        }
+      ],
+      delivery: [
+        {
+          label: '商家自配',
+          value: 1
+        },
+        {
+          label: '美团专送',
+          value: 2
+        },
+        {
+          label: '美团快送',
+          value: 3
+        },
+        {
+          label: '混合送',
           value: 4
         }
       ],

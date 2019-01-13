@@ -1,5 +1,5 @@
 <template>
-  <div style="background-color:#727272; height: 900px;">
+  <div style="background-color:#727272; height: 700px;">
     <aside>
     <el-menu router
              class="el-menu-vertical-demo"

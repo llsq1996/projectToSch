@@ -9,27 +9,32 @@
         <hr/>
         <br/>
       </el-col>
-      <el-col :span="24" :offset="1">
+      <el-col :span="23" :offset="1">
         <el-table
           :data="filterData.slice((currentPage-1)*pageSize,currentPage*pageSize)"
           size="medium"
           :highlight-current-row="true"
           stripe
           style="width: 100%">
-          <el-table-column prop="id" label="id" width="80"></el-table-column>
+          <el-table-column prop="id" label="id" width="70"></el-table-column>
           <el-table-column prop="category" label="类别" width="120"></el-table-column>
-          <el-table-column prop="spName" label="商家名称" width="220"></el-table-column>
-          <el-table-column prop="address" label="地址" width="200"></el-table-column>
-          <el-table-column prop="CTime" label="创建时间" width="200"></el-table-column>
-          <el-table-column prop="ETime" label="修改时间" width="200"></el-table-column>
+          <el-table-column prop="spName" label="商家名称" width="200"></el-table-column>
+          <el-table-column prop="delivery" label="配送方式" width="100"></el-table-column>
+          <el-table-column prop="CTime" label="创建时间" width="180"></el-table-column>
+          <el-table-column prop="ETime" label="修改时间" width="180"></el-table-column>
+          <el-table-column prop="doing" label="操作" width="200" fixed="right">
+            <template slot-scope="scope">
+            <el-button  type="primary" size="small">编辑</el-button>
+            <el-button type="danger" size="small" >删除</el-button>
+            </template>
+          </el-table-column>
         </el-table>
         <el-pagination
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
           :current-page="currentPage"
-          :page-sizes="pageSizeList"
           :page-size="pageSize"
-          layout="total, sizes, prev, pager, next, jumper"
+          layout="total, prev, pager, next, jumper"
           :total="total">
         </el-pagination>
       </el-col>
@@ -63,7 +68,6 @@ export default {
       currentPage: 1,
       pageSize: 10,
       total: 0,
-      pageSizeList: [10, 50, 100, 200]
     }
   },
   methods: {
