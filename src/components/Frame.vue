@@ -29,7 +29,7 @@ export default {
     let name = this.Cookie.getCookie('user')
     if (!name) {
       this.$router.push({
-        name: 'login',
+        name: 'login'
       })
     }
   },

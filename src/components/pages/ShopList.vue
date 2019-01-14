@@ -24,8 +24,8 @@
           <el-table-column prop="ETime" label="修改时间" width="180"></el-table-column>
           <el-table-column prop="doing" label="操作" width="200" fixed="right">
             <template slot-scope="scope">
-            <el-button  type="primary" size="small">编辑</el-button>
-            <el-button type="danger" size="small" >删除</el-button>
+            <el-button  type="primary" size="small" @click="Detail(scope.row.id)">编辑</el-button>
+            <el-button type="danger" size="small" @click="Del(scope.row.id)">删除</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -67,7 +67,7 @@ export default {
       filterData: [],
       currentPage: 1,
       pageSize: 10,
-      total: 0,
+      total: 0
     }
   },
   methods: {
@@ -78,6 +78,20 @@ export default {
     handleCurrentChange (val) {
       console.log(`当前页: ${val}`)
       this.currentPage = val
+    },
+    // 向后台发送请求逻辑删除该门店，并刷新页面
+    Del (id) {
+      console.log(id)
+      // to do
+      location.reload()
+    },
+    // 跳转到详情页，携带id
+    Detail (id) {
+      console.log(id)
+      this.$router.push({
+        id: id,
+        name: 'index'
+      })
     }
   }
 }
