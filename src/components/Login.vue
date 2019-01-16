@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="img1">
     <el-row >
     <el-col :span="24">
       <Head></Head>
@@ -7,7 +7,6 @@
     <el-col>
       <br/> <br/> <br/> <br/>
     </el-col>
-      <div >
       <el-col :span="18" :offset="6">
         <el-form :model="originData" ref="originData" label-position="right" label-width="80px" size="medium" >
           <el-form-item label="用户" prop="user" >
@@ -26,7 +25,6 @@
           </el-form-item>
         </el-form>
       </el-col>
-      </div>
     </el-row>
   </div>
 </template>
@@ -49,7 +47,7 @@ export default {
   data () {
     return {
       originData: {},
-      userName: '未登录'
+      userName: '未登录',
     }
   },
   methods: {
@@ -87,5 +85,10 @@ export default {
 </script>
 
 <style scoped>
-
+  .img1{
+    width: 1400px;
+    height: 675px;
+    background: url('../assets/test.jpg') center center no-repeat;
+    background-size: 1400px;
+  }
 </style>
