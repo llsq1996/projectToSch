@@ -1,11 +1,11 @@
 <template>
-  <div style="background-color:#9F5000; height: 900px;">
+  <div style="background-color:#D2B48C ; height: 900px;">
     <aside>
     <el-menu router
              class="el-menu-vertical-demo"
              text-color="#ffff"
-             active-text-color="#AE0000"
-             background-color="#9F5000"
+             active-text-color="#000000"
+             background-color="#D2B48C "
              @open="handleOpen"
              @close="handleClose"
              @Select="handleSelect"
