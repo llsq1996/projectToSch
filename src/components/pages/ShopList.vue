@@ -82,7 +82,7 @@ export default {
     // 向后台发送请求逻辑删除该门店，并刷新页面
     Del (id) {
       console.log(id)
-      // to do
+      this.$http.get('/api/shopDelete?id='+id)
       location.reload()
     },
     // 跳转到详情页，携带id
