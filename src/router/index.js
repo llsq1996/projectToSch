@@ -8,7 +8,6 @@ import ShopDetail from '@/components/pages/ShopDetail'
 import ShopList from '@/components/pages/ShopList'
 import UserAdd from '@/components/pages/UserAdd'
 Vue.use(Router)
-
 export default new Router({
   routes: [
     {

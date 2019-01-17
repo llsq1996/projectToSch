@@ -5,7 +5,7 @@
              mode="horizontal"
              text-color="#ffff"
              active-text-color=" #303133"
-             background-color="#9F5000"
+             background-color="#D2B48C "
              @open="handleOpen"
              @close="handleClose"
              @Select="handleSelect"
