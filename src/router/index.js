@@ -4,6 +4,7 @@ import Frame from '@/components/Frame'
 import Index from '@/components/index'
 import Login from '@/components/Login'
 import ShopAdd from '@/components/pages/ShopAdd'
+import ShopDetail from '@/components/pages/ShopDetail'
 import ShopList from '@/components/pages/ShopList'
 import UserAdd from '@/components/pages/UserAdd'
 Vue.use(Router)
@@ -18,7 +19,8 @@ export default new Router({
       children: [
         {path: '/index', name: 'index', component: Index},
         {path: '/shopAdd', name: 'shopAdd', component: ShopAdd},
-        {path: '/shopList', name: 'shopList', component: ShopList}
+        {path: '/shopList', name: 'shopList', component: ShopList},
+        {path: '/shopDetail', name: 'shopDetail', component: ShopDetail}
       ]
     },
     {

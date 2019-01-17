@@ -137,6 +137,8 @@ export default {
         })
       }
     })
+
+    console.log(this.$router.params.id)
   },
   data () {
     return {

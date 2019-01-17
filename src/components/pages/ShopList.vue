@@ -89,8 +89,8 @@ export default {
     Detail (id) {
       console.log(id)
       this.$router.push({
-        id: id,
-        name: 'index'
+        params: {id: id},
+        name: 'shopDetail'
       })
     }
   }
