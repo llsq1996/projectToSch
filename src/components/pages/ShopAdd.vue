@@ -308,7 +308,6 @@ export default {
       this.id = ''
     },
     handleItemChange (val) {
-      console.log(this.area)
       if (val.length === 1) {
         // 如果遍历到的省份就是选择的省份，同时该省份下的市没有插入，则插入这个省份的市
         this.options2.forEach(i => {

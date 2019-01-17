@@ -4,7 +4,7 @@
              class="el-menu-vertical-demo"
              mode="horizontal"
              text-color="#ffff"
-             active-text-color=" #303133"
+             active-text-color=" #000000"
              background-color="#D2B48C "
              @open="handleOpen"
              @close="handleClose"

@@ -4,7 +4,7 @@
       <el-col>
         <br/>
         <el-breadcrumb separator="/">
-          <el-breadcrumb-item :to="{path:'/index'}" ><b style="cursor: pointer">&nbsp;&nbsp;首页</b><b> / 新建</b></el-breadcrumb-item>
+          <el-breadcrumb-item :to="{path:'/index'}" ><b style="cursor: pointer">&nbsp;&nbsp;首页</b><b> / 详情</b></el-breadcrumb-item>
         </el-breadcrumb>
         <hr/>
         <br/>
@@ -88,26 +88,9 @@
             <img width="100%" :src="dialogImageUrl" alt="">
           </el-dialog>
         </el-form-item>
-        <el-form-item label="品牌商家文档" prop="world">
-          <el-upload
-            class="upload-demo"
-            :auto-upload="false"
-            :action="uploadUrlExcel"
-            ref="excUpload"
-            :limit="1"
-            :before-upload="handleBeforeExcel"
-            :on-exceed="handleExceed"
-            :on-success="handExSuccess"
-            :data="fileData"
-            :file-list="fileList">
-            <el-button size="small" type="primary">点击上传</el-button>
-            <div slot="tip" class="el-upload__tip">只能上传.xls和.xlsx的excel文件，且不超过1Mb,非品牌商家不会上传</div>
-          </el-upload>
-        </el-form-item>
         <el-col><br/></el-col>
         <el-form-item>
-          <el-button type="primary" @click="formSubmit()">提交</el-button>
-          <el-button type="danger" @click="resetForm('originData')">重置</el-button>
+          <el-button type="primary" @click="formSubmit()">修改</el-button>
         </el-form-item>
       </el-form>
     </el-row>
@@ -118,6 +101,7 @@
 export default {
   name: 'ShopDetail',
   created () {
+    // 获取省份信息，并填充该商家地址对应省份下的市以及县
     this.$http.get('/api/getProvince').then(ref => {
       if (ref.body.code === 1) {
         let data = ref.body.data
@@ -127,6 +111,34 @@ export default {
             value: x.provinceid,
             children: []
           }
+          // 如果该省份是商家所在省份，查询其市信息
+          if (x.provinceid === '140000') {
+            this.$http.get('/api/getCity?provinceId=' + '140000').then(ref2 => {
+              let data2 = ref2.body.data
+              data2.forEach(x2 => {
+                let opt2 = {
+                  label: x2.city,
+                  value: x2.cityid,
+                  children: []
+                }
+                // 如果该省份是商家所在市，查询其县信息
+                if (x2.cityid === '140700') {
+                  this.$http.get('/api/getArea?cityId=' + '140700').then(ref3 => {
+                    let data3 = ref3.body.data
+                    data3.forEach(x3 => {
+                      let opt3 = {
+                        label: x3.area,
+                        value: x3.areaid
+                      }
+                      opt2.children.push(opt3)
+                    })
+                  })
+                }
+                opt.children.push(opt2)
+              })
+            })
+          }
+          // 填充到地址组件中
           this.options2.push(opt)
         })
       } else {
@@ -137,8 +149,9 @@ export default {
         })
       }
     })
-
-    console.log(this.$router.params.id)
+    // 要展示的商家id，根据id向后套查询商家信息，填充前端组件
+    console.log(this.$route.params.id)
+    this.originData.addressList = ['140000', '140700', '140726']
   },
   data () {
     return {
