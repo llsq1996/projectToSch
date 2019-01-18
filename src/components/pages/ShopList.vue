@@ -82,8 +82,14 @@ export default {
     // 向后台发送请求逻辑删除该门店，并刷新页面
     Del (id) {
       console.log(id)
-      this.$http.get('/api/shopDelete?id='+id)
-      location.reload()
+      this.$http.get('/api/shopDelete?id=' + id).then(ref => {
+        if (ref.body.code === 1) {
+          this.$message.success('删除成功')
+          location.reload()
+        } else {
+          this.$message.error('服务错误')
+        }
+      })
     },
     // 跳转到详情页，携带id
     Detail (id) {
