@@ -18,8 +18,39 @@
           style="width: 100%">
           <el-table-column prop="id" label="id" width="70"></el-table-column>
           <el-table-column prop="category" label="类别" width="120"></el-table-column>
-          <el-table-column prop="spName" label="商家名称" width="200"></el-table-column>
-          <el-table-column prop="delivery" label="配送方式" width="100"></el-table-column>
+          <el-table-column prop="spName" label="商家名称" width="200">
+            <template slot-scope="scope">
+              <el-popover trigger="hover" placement="top">
+                <p>商家负责人: {{ scope.row.leader }}</p>
+                <p>联系方式: {{ scope.row.leaderPhone }}</p>
+                <p>地址: {{ scope.row.address }}</p>
+                <div slot="reference" class="name-wrapper">
+                  <el-tag size="medium">{{ scope.row.spName }}</el-tag>
+                </div>
+              </el-popover>
+            </template>
+          </el-table-column>
+          <el-table-column prop="delivery" label="配送方式" width="100">
+            <template slot-scope="scope">
+              <el-popover trigger="hover" placement="top">
+                <p>起送价: {{ scope.row.deliPrice }}</p>
+                <p>配送费: {{ scope.row.dispatch }}</p>
+                <div slot="reference" class="name-wrapper">
+                  <el-tag size="medium">{{ scope.row.delivery }}</el-tag>
+                </div>
+              </el-popover>
+            </template>
+          </el-table-column>
+          <el-table-column prop="worker" label="录入人" width="100">
+            <template slot-scope="scope">
+              <el-popover trigger="hover" placement="top">
+                <p>客服电话: {{ scope.row.cusPhone }}</p>
+                <div slot="reference" class="name-wrapper">
+                  <el-tag size="medium">{{ scope.row.worker }}</el-tag>
+                </div>
+              </el-popover>
+            </template>
+          </el-table-column>
           <el-table-column prop="CTime" label="创建时间" width="180"></el-table-column>
           <el-table-column prop="ETime" label="修改时间" width="180"></el-table-column>
           <el-table-column prop="doing" label="操作" width="200" fixed="right">
@@ -30,6 +61,7 @@
           </el-table-column>
         </el-table>
         <el-pagination
+          background
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
           :current-page="currentPage"
@@ -49,6 +81,7 @@ export default {
     this.$http.get('/api/shopList').then(ref => {
       if (ref.body.code === 1) {
         this.originData = ref.body.data
+        console.log(this.originData)
         this.filterData = JSON.parse(JSON.stringify(this.originData))
         console.log(this.filterData.length)
         this.total = this.filterData.length
@@ -66,7 +99,8 @@ export default {
       originData: [],
       filterData: [],
       currentPage: 1,
-      pageSize: 10,
+      pageSize: 15,
+      pageSizeLists: [10, 15, 20, 25],
       total: 0
     }
   },

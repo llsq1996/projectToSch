@@ -60,6 +60,16 @@
             <el-input  placeholder="请输入电话" v-model="originData.cusPhone" clearable></el-input>
           </el-col>
         </el-form-item>
+        <el-form-item label="起送价" prop="deliPrice"  required>
+          <el-col :span="10">
+            <el-input  placeholder="请输入起送价" v-model="originData.deliPrice" clearable></el-input>
+          </el-col>
+        </el-form-item>
+        <el-form-item label="配送费" prop="dispatch"  required>
+          <el-col :span="10">
+            <el-input  placeholder="请输入配送费" v-model="originData.dispatch" clearable></el-input>
+          </el-col>
+        </el-form-item>
         <el-form-item label="地址" prop="addressList"  required>
           <el-cascader
             :options="options2"
