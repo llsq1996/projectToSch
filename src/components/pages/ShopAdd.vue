@@ -9,7 +9,7 @@
         <hr/>
         <br/>
       </el-col>
-      <el-form ref="originData" :model="originData" label-width="120px" size="medium ">
+      <el-form ref="originData" :model="originData"  label-width="120px" size="medium ">
         <el-form-item label="类别" prop="category"  required>
           <el-select v-model="originData.category" >
             <el-option
@@ -52,7 +52,7 @@
         </el-form-item>
         <el-form-item label="联系电话" prop="leaderPhone"  required>
           <el-col :span="10">
-            <el-input  placeholder="请输入电话" v-model="originData.leaderPhone" clearable></el-input>
+            <el-input  placeholder="请输入电话" v-model="originData.leaderPhone" type="telephone" clearable></el-input>
           </el-col>
         </el-form-item>
         <el-form-item label="客服电话" prop="cusPhone"  required>
@@ -147,13 +147,18 @@ export default {
         })
       }
     })
+    let name = this.Cookie.getCookie('user')
+    if (name) {
+      this.originData.worker = unescape(name)
+    }
   },
   data () {
     return {
       originData: {
         category: 1,
         isTradeMark: 0,
-        delivery: 1
+        delivery: 1,
+        worker: ''
       },
       id: '',
       category: [

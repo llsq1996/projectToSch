@@ -17,6 +17,7 @@
         </template>
         <el-menu-item-group>
           <el-menu-item index="/shopAdd">商家入驻</el-menu-item>
+          <el-menu-item index="/shopSupplement">品牌商家批量补录</el-menu-item>
           <el-menu-item index="/shopList">商家列表</el-menu-item>
         </el-menu-item-group>
       </el-submenu>

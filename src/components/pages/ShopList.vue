@@ -23,9 +23,18 @@
               <el-popover trigger="hover" placement="top">
                 <p>商家负责人: {{ scope.row.leader }}</p>
                 <p>联系方式: {{ scope.row.leaderPhone }}</p>
-                <p>地址: {{ scope.row.address }}</p>
                 <div slot="reference" class="name-wrapper">
                   <el-tag size="medium">{{ scope.row.spName }}</el-tag>
+                </div>
+              </el-popover>
+            </template>
+          </el-table-column>
+          <el-table-column prop="isTradeMark" label="品牌商家" width="100">
+            <template slot-scope="scope">
+              <el-popover trigger="hover" placement="top">
+                <p>地址: {{ scope.row.address }}</p>
+                <div slot="reference" class="name-wrapper">
+                  <el-tag size="medium">{{ scope.row.isTradeMark }}</el-tag>
                 </div>
               </el-popover>
             </template>

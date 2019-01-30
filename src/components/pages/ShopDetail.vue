@@ -13,7 +13,7 @@
         <el-form-item label="类别" prop="category"  required>
           <el-select v-model="originData.category" >
             <el-option
-              v-for="item in category"
+              v-for="item in categoryList"
               :key="item.label"
               :label="item.label"
               :value="item.value">
@@ -23,7 +23,7 @@
         <el-form-item label="配送方式" prop="delivery"  required>
           <el-select v-model="originData.delivery" >
             <el-option
-              v-for="item in delivery"
+              v-for="item in deliveryList"
               :key="item.label"
               :label="item.label"
               :value="item.value">
@@ -35,10 +35,10 @@
             <el-input  placeholder="请输入名称" v-model="originData.spName" clearable></el-input>
           </el-col>
         </el-form-item>
-        <el-form-item label="品牌商家" pror="isTradeMark" required>
+        <el-form-item label="品牌商家" prop="isTradeMark" required>
           <el-select v-model="originData.isTradeMark" >
             <el-option
-              v-for="item in isTradeMark"
+              v-for="item in isTradeMarkList"
               :key="item.label"
               :label="item.label"
               :value="item.value">
@@ -50,14 +50,24 @@
             <el-input  placeholder="请输入负责人" v-model="originData.leader" clearable></el-input>
           </el-col>
         </el-form-item>
-        <el-form-item label="联系电话" prop="leaderPhone"  required>
+        <el-form-item label="联系电话" prop="leaderPhone" required>
           <el-col :span="10">
             <el-input  placeholder="请输入电话" v-model="originData.leaderPhone" clearable></el-input>
           </el-col>
         </el-form-item>
-        <el-form-item label="客服电话" prop="cusPhone"  required>
+        <el-form-item label="客服电话" prop="cusPhone" required>
           <el-col :span="10">
             <el-input  placeholder="请输入电话" v-model="originData.cusPhone" clearable></el-input>
+          </el-col>
+        </el-form-item>
+        <el-form-item label="起送价" prop="deliPrice"  required>
+          <el-col :span="10">
+            <el-input  placeholder="请输入起送价" v-model="originData.deliPrice" clearable></el-input>
+          </el-col>
+        </el-form-item>
+        <el-form-item label="配送费" prop="dispatch"  required>
+          <el-col :span="10">
+            <el-input  placeholder="请输入配送费" v-model="originData.dispatch" clearable></el-input>
           </el-col>
         </el-form-item>
         <el-form-item label="地址" prop="addressList"  required>
@@ -68,29 +78,10 @@
             v-model="originData.addressList"
           ></el-cascader>
         </el-form-item>
-        <el-form-item label="资质logo" prop="logo">
-          <el-upload
-            :auto-upload="false"
-            :action="uploadUrl"
-            list-type="picture-card"
-            ref="newUpload"
-            :data="uploadData"
-            :limit="4"
-            :file-list="pictureList"
-            :on-preview="handlePictureCardPreview"
-            :on-remove="handleRemove"
-            :before-upload="handleBefore"
-            :on-success="handPicSuccess">
-            <i class="el-icon-plus"></i>
-            <div class="el-upload__tip" slot="tip">只能上传jpg文件，且不超过500kb</div>
-          </el-upload>
-          <el-dialog :visible.sync="dialogVisible">
-            <img width="100%" :src="dialogImageUrl" alt="">
-          </el-dialog>
-        </el-form-item>
         <el-col><br/></el-col>
         <el-form-item>
           <el-button type="primary" @click="formSubmit()">修改</el-button>
+          <el-button type="danger" @click="resetForm('originData')">重置</el-button>
         </el-form-item>
       </el-form>
     </el-row>
@@ -101,67 +92,33 @@
 export default {
   name: 'ShopDetail',
   created () {
-    // 获取省份信息，并填充该商家地址对应省份下的市以及县
-    this.$http.get('/api/getProvince').then(ref => {
-      if (ref.body.code === 1) {
-        let data = ref.body.data
-        data.forEach(x => {
-          let opt = {
-            label: x.province,
-            value: x.provinceid,
-            children: []
-          }
-          // 如果该省份是商家所在省份，查询其市信息
-          if (x.provinceid === '140000') {
-            this.$http.get('/api/getCity?provinceId=' + '140000').then(ref2 => {
-              let data2 = ref2.body.data
-              data2.forEach(x2 => {
-                let opt2 = {
-                  label: x2.city,
-                  value: x2.cityid,
-                  children: []
-                }
-                // 如果该省份是商家所在市，查询其县信息
-                if (x2.cityid === '140700') {
-                  this.$http.get('/api/getArea?cityId=' + '140700').then(ref3 => {
-                    let data3 = ref3.body.data
-                    data3.forEach(x3 => {
-                      let opt3 = {
-                        label: x3.area,
-                        value: x3.areaid
-                      }
-                      opt2.children.push(opt3)
-                    })
-                  })
-                }
-                opt.children.push(opt2)
-              })
-            })
-          }
-          // 填充到地址组件中
-          this.options2.push(opt)
-        })
-      } else {
-        this.$message({
-          showClose: true,
-          message: '服务器返回错误',
-          type: 'error'
-        })
-      }
-    })
     // 要展示的商家id，根据id向后套查询商家信息，填充前端组件
     console.log(this.$route.params.id)
-    this.originData.addressList = ['140000', '140700', '140726']
+    if (this.$route.params.id) {
+      this.Cookie.setCookie('id', this.$route.params.id)
+      this.originData.id = this.$route.params.id
+    } else {
+      this.originData.id = unescape(this.Cookie.getCookie('id'))
+    }
+    console.log(this.originData.id)
+    this.init()
   },
   data () {
     return {
       originData: {
         category: 1,
         isTradeMark: 0,
-        delivery: 1
+        delivery: 1,
+        id: 0,
+        spName: '',
+        leader: '',
+        leaderPhone: '',
+        cusPhone: '',
+        deliPrice: '',
+        dispatch: '',
+        addressList: []
       },
-      id: '',
-      category: [
+      categoryList: [
         {
           label: '药品鲜花',
           value: 1
@@ -179,7 +136,7 @@ export default {
           value: 4
         }
       ],
-      delivery: [
+      deliveryList: [
         {
           label: '商家自配',
           value: 1
@@ -197,7 +154,7 @@ export default {
           value: 4
         }
       ],
-      isTradeMark: [
+      isTradeMarkList: [
         {
           label: '非品牌商家',
           value: 0
@@ -207,16 +164,6 @@ export default {
           value: 1
         }
       ],
-      dialogImageUrl: '',
-      dialogVisible: false,
-      uploadUrl: '/api/pic',
-      pictureList: [],
-      uploadData: {name: '', id: ''},
-      picSuccess: false,
-      uploadUrlExcel: '/api/excel',
-      fileList: [],
-      fileData: {name: '', id: ''},
-      fileSuccess: false,
       options2: [],
       props: {
         label: 'label',
@@ -227,96 +174,106 @@ export default {
     }
   },
   methods: {
-    handleRemove (file, fileList) {
-      console.log(file, fileList)
-    },
-    handlePictureCardPreview (file) {
-      this.dialogImageUrl = file.url
-      console.log(this.dialogImageUrl)
-      this.dialogVisible = true
-    },
-    handleBefore (file) {
-      console.log(file)
-      let types = file.name.split('.')
-      console.log(types)
-      if (types[1] !== 'jpg') {
-        this.$message.error('上传文件类型错误，已取消该文件上传')
-        return false
-      }
-      this.uploadData.name = file.name
-    },
-    handleBeforeExcel (file) {
-      console.log(file)
-      let types = file.name.split('.')
-      console.log(types)
-      if (types[1] !== 'xls' && types[1] !== 'xlsx') {
-        this.$message.error('上传文件类型错误，已取消该文件上传')
-        return false
-      }
-      this.fileData.name = file.name
-    },
-    handleExceed (files, fileList) {
-      this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`)
-    },
-    handPicSuccess (response, file, fileList) {
-      this.picSuccess = true
-    },
-    handExSuccess (response, file, fileList) {
-      this.fileSuccess = true
-    },
-    formSubmit () {
-      // 若已提交，但图片或文档格式错误，只重复提交图片或文档
-      if (this.id) {
-        // 提交图片
-        console.log(this.id)
-        if (!this.picSuccess) {
-          this.uploadData.id = this.id
-          this.$refs.newUpload.submit()
-        }
-        if (!this.fileSuccess && this.originData.isTradeMark === 1) {
-          this.fileData.id = this.id
-          this.$refs.excUpload.submit()
-        }
-      } else {
-        // 将要提交的对象先复制一份，对复制后的对象进行处理后提交
-        let str = ''
-        // 深层复制
-        let shop = JSON.parse(JSON.stringify(this.originData))
-        if (shop.addressList) {
-          shop.addressList.forEach(x => {
-            console.log('x:', x)
-            str += x + ','
+    init () {
+      this.$http.get('/api/shopDetail?id=' + this.originData.id).then(ref => {
+        if (ref.body.code === 1) {
+          let obj = ref.body.data
+          console.log(obj)
+          this.originData.category = obj.category
+          this.originData.delivery = obj.delivery
+          this.originData.isAdmin = obj.isAdmin
+          this.originData.isTradeMark = obj.isTradeMark
+          this.originData.spName = obj.spName
+          this.originData.leader = obj.leader
+          this.originData.leaderPhone = obj.leaderPhone
+          this.originData.cusPhone = obj.cusPhone
+          this.originData.deliPrice = obj.deliPrice
+          this.originData.dispatch = obj.dispatch
+          obj.addressList.split(',').forEach(x => {
+            this.originData.addressList.push(x)
+          })
+          console.log(this.originData)
+          let area = this.originData.addressList
+          // 获取省份信息，并填充该商家地址对应省份下的市以及县
+          this.$http.get('/api/getProvince').then(ref => {
+            if (ref.body.code === 1) {
+              let data = ref.body.data
+              data.forEach(x => {
+                let opt = {
+                  label: x.province,
+                  value: x.provinceid,
+                  children: []
+                }
+                // 如果该省份是商家所在省份，查询其市信息
+                if (x.provinceid === area[0]) {
+                  this.$http.get('/api/getCity?provinceId=' + area[0]).then(ref2 => {
+                    let data2 = ref2.body.data
+                    data2.forEach(x2 => {
+                      let opt2 = {
+                        label: x2.city,
+                        value: x2.cityid,
+                        children: []
+                      }
+                      // 如果该省份是商家所在市，查询其县信息
+                      if (x2.cityid === area[1]) {
+                        this.$http.get('/api/getArea?cityId=' + area[1]).then(ref3 => {
+                          let data3 = ref3.body.data
+                          data3.forEach(x3 => {
+                            let opt3 = {
+                              label: x3.area,
+                              value: x3.areaid
+                            }
+                            opt2.children.push(opt3)
+                          })
+                        })
+                      }
+                      opt.children.push(opt2)
+                    })
+                  })
+                }
+                // 填充到地址组件中
+                this.options2.push(opt)
+              })
+            } else {
+              this.$message({
+                showClose: true,
+                message: '服务器返回错误',
+                type: 'error'
+              })
+            }
           })
         }
-        shop.addressList = str
-        console.log(shop)
-        // 首次提交门店信息
-        this.$http.post('/api/shopAdd', shop).then(ref => {
-          if (ref.body.code === 1) {
-            this.$message({
-              showClose: true,
-              message: '提交成功',
-              type: 'success'
-            })
-            // 再提交图片和excel
-            if (ref.body.data) {
-              this.id = ref.body.data
-              this.uploadData.id = ref.body.data
-              this.$refs.newUpload.submit()
-              if (shop.isTradeMark === 1) {
-                this.fileData.id = ref.body.data
-                this.$refs.excUpload.submit()
-              }
-            }
-          } else {
-            this.$message({
-              showClose: true,
-              message: ref.body.message,
-              type: 'error'
-            })
-          }
+      })
+    },
+    formSubmit () {
+      // 将要提交的对象先复制一份，对复制后的对象进行处理后提交
+      let str = ''
+      // 深层复制
+      let shop = JSON.parse(JSON.stringify(this.originData))
+      if (shop.addressList) {
+        shop.addressList.forEach(x => {
+          console.log('x:', x)
+          str += x + ','
         })
       }
+      shop.addressList = str
+      console.log(shop)
+      // 首次提交门店信息
+      this.$http.post('/api/shopUpdate', shop).then(ref => {
+        if (ref.body.code === 1) {
+          this.$message({
+            showClose: true,
+            message: '提交成功',
+            type: 'success'
+          })
+        } else {
+          this.$message({
+            showClose: true,
+            message: ref.body.message,
+            type: 'error'
+          })
+        }
+      })
     },
     resetForm (formName) {
       this.$refs[formName].resetFields()
