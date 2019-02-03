@@ -7,6 +7,8 @@ import ShopAdd from '@/components/pages/ShopAdd'
 import ShopDetail from '@/components/pages/ShopDetail'
 import ShopList from '@/components/pages/ShopList'
 import UserAdd from '@/components/pages/UserAdd'
+import UserDetail from '@/components/pages/UserDetail'
+import UserList from '@/components/pages/UserList'
 import ShopSupplement from '@/components/pages/shopSupplement'
 Vue.use(Router)
 export default new Router({
@@ -53,8 +55,8 @@ export default new Router({
       component: Frame,
       children: [
         {path: '/userAdd', name: 'userAdd', component: UserAdd},
-        {path: '/shopAdd', name: 'shopAdd', component: ShopAdd},
-        {path: '/shopList', name: 'shopList', component: ShopList}
+        {path: '/userList', name: 'userList', component: UserList},
+        {path: '/userDetail', name: 'userDetail', component: UserDetail}
       ]
     },
     {

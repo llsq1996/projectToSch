@@ -51,7 +51,7 @@
         </template>
         <el-menu-item-group>
           <el-menu-item index="/userAdd">人员录入</el-menu-item>
-          <el-menu-item index="/shopList">人员列表</el-menu-item>
+          <el-menu-item index="/userList">人员列表</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
     </el-menu>

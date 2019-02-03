@@ -4,7 +4,7 @@
       <el-col>
         <br/>
         <el-breadcrumb separator="/">
-          <el-breadcrumb-item :to="{path:'/index'}" ><b style="cursor: pointer">&nbsp;&nbsp;首页</b><b> / 人员录入</b></el-breadcrumb-item>
+          <el-breadcrumb-item :to="{path:'/index'}" ><b style="cursor: pointer">&nbsp;&nbsp;首页</b><b> / 人员详情</b></el-breadcrumb-item>
         </el-breadcrumb>
         <hr/>
         <br/>
@@ -57,24 +57,44 @@ export default {
     this.admin = unescape(this.Cookie.getCookie('isAdmin'))
     if (this.admin !== '1') {
       this.$message.error('无管理员权限')
+    } else {
+      if (this.$route.params.id) {
+        this.Cookie.setCookie('id', this.$route.params.id)
+        this.originData.userId = this.$route.params.id
+      } else {
+        this.originData.userId = unescape(this.Cookie.getCookie('id'))
+      }
+      console.log(this.originData.userId)
+      this.$http.get('/api/userDetail?userId=' + this.originData.userId).then(ref => {
+        if (ref.body.code === 1) {
+          let obj = ref.body.data
+          console.log(obj)
+          this.originData.userName = obj.userName
+          this.originData.password = obj.password
+          this.originData.isAdmin = obj.isAdmin
+          this.originData.isAudit = obj.isAudit
+        }
+      })
     }
   },
   data () {
     return {
       originData: {
+        userName: '',
+        password: '',
         isAdmin: 0,
-        isAudit: 0
+        isAudit: 0,
+        userId: 0
       },
-      id: '',
       admin: 2,
       isAdmin: [
         {
-          label: '有',
-          value: 1
-        },
-        {
           label: '无',
           value: 0
+        },
+        {
+          label: '有',
+          value: 1
         }
       ],
       isAudit: [
@@ -92,7 +112,7 @@ export default {
   methods: {
     formSubmit () {
       if (this.admin === '1') {
-        this.$http.post('/api/userAdd', this.originData).then(x => {
+        this.$http.post('/api/userUpdate', this.originData).then(x => {
           if (x.body.code === 1) {
             this.$message.success('success')
           } else {

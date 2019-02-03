@@ -47,20 +47,10 @@ export default {
   data () {
     return {
       originData: {},
-      userName: '未登录',
+      userName: '未登录'
     }
   },
   methods: {
-    submitForm (formName) {
-      this.$refs[formName].validate((valid) => {
-        if (valid) {
-          alert('submit!')
-        } else {
-          console.log('error submit!!')
-          return false
-        }
-      })
-    },
     resetForm (formName) {
       this.$refs[formName].resetFields()
     },
@@ -71,7 +61,11 @@ export default {
       }
       this.$http.post('/api' + '/login', data).then(x => {
         if (x.body.code === 1) {
+          console.log(x.body.data)
           this.Cookie.setCookie('user', this.originData.user)
+          this.Cookie.setCookie('password', this.originData.password)
+          this.Cookie.setCookie('isAdmin', x.body.data.isAdmin)
+          this.Cookie.setCookie('isAudit', x.body.data.isAudit)
           this.$router.push({
             name: 'index'
           })
