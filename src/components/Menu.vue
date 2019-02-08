@@ -39,9 +39,9 @@
           <span >统计管理</span>
         </template>
         <el-menu-item-group>
-          <el-menu-item index="/shopAdd">商家类别统计</el-menu-item>
-          <el-menu-item index="/shopList">商家入驻统计</el-menu-item>
-          <el-menu-item index="/shopList">人员统计</el-menu-item>
+          <el-menu-item index="/category">商家类别统计</el-menu-item>
+          <el-menu-item index="/addCount">商家入驻统计</el-menu-item>
+          <el-menu-item index="/addCount">人员统计</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
       <el-submenu index="/people">
