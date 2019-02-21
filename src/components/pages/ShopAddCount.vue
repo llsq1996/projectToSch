@@ -20,7 +20,7 @@
           :highlight-current-row="true"
           stripe
           style="width: 100%">
-          <el-table-column prop="categoryName" label="商家类别" width="250"></el-table-column>
+          <el-table-column prop="name" label="时间" width="250"></el-table-column>
           <el-table-column prop="number" label="数量" width="250">
             <template slot-scope="scope" style="width: 50%;">
               <el-popover trigger="hover" placement="right-start" >
@@ -39,6 +39,8 @@
                   </el-table-column>
                   <el-table-column prop="worker" label="录入人" width="100">
                   </el-table-column>
+                  <el-table-column prop="CTime" label="入驻时间" width="100">
+                  </el-table-column>
                   <el-table-column prop="doing" label="操作" width="100" fixed="right">
                     <template slot-scope="scope">
                       <el-button  type="primary" size="small" @click="Detail(scope.row.id)">编辑</el-button>
@@ -54,7 +56,7 @@
         </el-table>
       </el-col>
       <el-col :span="12" >
-        <div id="myChart" :style="{width: '600px', height: '400px'}">
+        <div id="myChart" :style="{width: '600px', height: '600px'}">
         </div>
       </el-col>
     </el-row>
@@ -65,6 +67,7 @@
 let echarts = require('echarts/lib/echarts')
 // 引入柱状图组件
 require('echarts/lib/chart/bar')
+require('echarts/lib/chart/line')
 // 引入提示框和title组件
 require('echarts/lib/component/tooltip')
 require('echarts/lib/component/title')
@@ -79,11 +82,11 @@ export default {
       filterData: [],
       shopSum: 0,
       option: {
-        title: { text: '商家类别统计' },
+        title: { text: '近期商家入驻统计' },
         tooltip: {
           trigger: 'axis',
           axisPointer: { // 坐标轴指示器，坐标轴触发有效
-            type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
+            type: 'line' // 默认为直线，可选为：'line' | 'shadow'
           }
         },
         legend: {
@@ -130,7 +133,7 @@ export default {
       }
     }
   },
-   mounted () {
+  mounted () {
   },
   methods: {
     drawLine () {
@@ -139,26 +142,30 @@ export default {
       // 绘制图表
       myChart.setOption(this.option)
     },
-     init () {
-      this.$http.get('/api/categoryCount').then(ref => {
+    init () {
+      this.$http.get('/api/shopAddCount').then(ref => {
         if (ref.body.code === 1) {
           console.log(ref.body.data)
           // 表格填充
           ref.body.data.forEach(each => {
             let obj = {
-              categoryName: '',
+              name: '',
               number: 0,
               shopList: []
             }
-            obj.categoryName = each.categoryName
+            obj.name = each.name
             obj.number = each.shopList.length
             obj.shopList = each.shopList
             this.filterData.push(obj)
-            this.option.yAxis[0].data.push(each.categoryName)
-            this.option.series[0].data.push(each.pinNum)
-            this.option.series[1].data.push(each.shopList.length-each.pinNum)
-            this.shopSum+=each.shopList.length
+            this.shopSum += each.shopList.length
           })
+          // 统计图填充
+          for (let i = ref.body.data.length - 1; i >= 0; i--) {
+            let each = ref.body.data[i]
+            this.option.yAxis[0].data.push(each.name)
+            this.option.series[0].data.push(each.num)
+            this.option.series[1].data.push(each.shopList.length - each.num)
+          }
           this.drawLine()
         }
       })

@@ -211,11 +211,11 @@ export default {
       dialogVisible: false,
       uploadUrl: '/api/pic',
       pictureList: [],
-      uploadData: {name: '', id: ''},
+      uploadData: {name: '', id: '', user: ''},
       picSuccess: false,
-      uploadUrlExcel: '/api/excel',
+      uploadUrlExcel: '/api/excel2',
       fileList: [],
-      fileData: {name: '', id: ''},
+      fileData: {name: '', id: '', user: ''},
       fileSuccess: false,
       options2: [],
       props: {
@@ -244,6 +244,7 @@ export default {
         return false
       }
       this.uploadData.name = file.name
+      this.uploadData.user = this.originData.worker
     },
     handleBeforeExcel (file) {
       console.log(file)
@@ -254,6 +255,7 @@ export default {
         return false
       }
       this.fileData.name = file.name
+      this.fileData.user = this.originData.worker
     },
     handleExceed (files, fileList) {
       this.$message.warning(`当前限制选择 1 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`)

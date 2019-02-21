@@ -47,6 +47,12 @@
 <script>
 export default {
   name: 'shopSupplement',
+  created () {
+    let name = this.Cookie.getCookie('user')
+    if (name) {
+      this.fileData.user = unescape(name)
+    }
+  },
   data () {
     return {
       restaurants: [],
@@ -55,7 +61,7 @@ export default {
       shopList: [],
       uploadUrlExcel: '/api/excel',
       fileList: [],
-      fileData: {name: '', id: ''},
+      fileData: {name: '', id: '', user: ''},
       fileSuccess: false
     }
   },
@@ -92,7 +98,7 @@ export default {
     },
     handExSuccess (response, file, fileList) {
       this.fileSuccess = true
-      this.$message.success("提交成功")
+      this.$message.success('提交成功')
     },
     formSubmit () {
       if (this.value) {

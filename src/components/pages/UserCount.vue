@@ -4,7 +4,7 @@
       <el-col>
         <br/>
         <el-breadcrumb separator="/">
-          <el-breadcrumb-item :to="{path:'/index'}" ><b style="cursor: pointer">&nbsp;&nbsp;首页</b><b> / 商家类别统计</b></el-breadcrumb-item>
+          <el-breadcrumb-item :to="{path:'/index'}" ><b style="cursor: pointer">&nbsp;&nbsp;首页</b><b> / 人员统计</b></el-breadcrumb-item>
         </el-breadcrumb>
         <hr/>
         <br/>
@@ -12,7 +12,6 @@
     </el-row>
         <el-row type="flex">
       <el-col :span="11" :offset="1">
-        <el-tag>商家总数:{{shopSum}}</el-tag>
         <br/>
         <el-table
           :data="filterData"
@@ -20,8 +19,8 @@
           :highlight-current-row="true"
           stripe
           style="width: 100%">
-          <el-table-column prop="categoryName" label="商家类别" width="250"></el-table-column>
-          <el-table-column prop="number" label="数量" width="250">
+          <el-table-column prop="name" label="名字" width="250"></el-table-column>
+          <el-table-column prop="number" label="工作量" width="250">
             <template slot-scope="scope" style="width: 50%;">
               <el-popover trigger="hover" placement="right-start" >
                 <el-table
@@ -113,14 +112,14 @@ export default {
         ],
         series: [
           {
-            name: '品牌商家',
+            name: '审核量',
             type: 'bar',
             stack: '总量',
             itemStyle: {normal: {label: {show: true, position: 'insideRight'}}},
             data: []
           },
           {
-            name: '非品牌商家',
+            name: '录入量',
             type: 'bar',
             stack: '总量',
             itemStyle: {normal: {label: {show: true, position: 'insideLeft'}}},
@@ -140,28 +139,27 @@ export default {
       myChart.setOption(this.option)
     },
     init () {
-      this.$http.get('/api/categoryCount').then(ref => {
+      this.$http.get('/api/userCount').then(ref => {
         if (ref.body.code === 1) {
           console.log(ref.body.data)
           // 表格填充
           ref.body.data.forEach(each => {
             let obj = {
-              categoryName: '',
+              name: '',
               number: 0,
               shopList: []
             }
-            obj.categoryName = each.name
-            obj.number = each.shopList.length
+            obj.name = each.name
+            obj.number = each.shopList.length + each.num
             obj.shopList = each.shopList
             this.filterData.push(obj)
-            this.shopSum += each.shopList.length
           })
           // 统计图填充
           for (let i = ref.body.data.length - 1; i >= 0; i--) {
             let each = ref.body.data[i]
             this.option.yAxis[0].data.push(each.name)
             this.option.series[0].data.push(each.num)
-            this.option.series[1].data.push(each.shopList.length - each.num)
+            this.option.series[1].data.push(each.shopList.length)
           }
           this.drawLine()
         }

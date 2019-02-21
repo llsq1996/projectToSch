@@ -9,9 +9,11 @@ import ShopList from '@/components/pages/ShopList'
 import UserAdd from '@/components/pages/UserAdd'
 import UserDetail from '@/components/pages/UserDetail'
 import UserList from '@/components/pages/UserList'
-import ShopSupplement from '@/components/pages/shopSupplement'
+import ShopSupplement from '@/components/pages/ShopSupplement'
 import Category from '@/components/pages/CategoryCount'
 import AddCount from '@/components/pages/ShopAddCount'
+import UserCount from '@/components/pages/UserCount'
+import AuditList from '@/components/pages/AuditList'
 Vue.use(Router)
 export default new Router({
   routes: [
@@ -35,7 +37,7 @@ export default new Router({
       component: Frame,
       children: [
         {path: '/index', name: 'index', component: Index},
-        {path: '/shopAdd', name: 'shopAdd', component: ShopAdd},
+        {path: '/auditList', name: 'auditList', component: AuditList},
         {path: '/shopList', name: 'shopList', component: ShopList}
       ]
     },
@@ -47,7 +49,8 @@ export default new Router({
       children: [
         {path: '/index', name: 'index', component: Index},
         {path: '/category', name: 'category', component: Category},
-        {path: '/addCount', name: 'addCount', component: AddCount}
+        {path: '/addCount', name: 'addCount', component: AddCount},
+        {path: '/userCount', name: 'userCount', component: UserCount}
       ]
     },
     {
