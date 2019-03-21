@@ -1,125 +1,130 @@
 <template>
   <div >
     <el-row>
-      <el-col>
         <br/>
+      <el-col  :span="22" :offset="1">
+        <el-card >
         <el-breadcrumb separator="/">
-          <el-breadcrumb-item :to="{path:'/index'}" ><b style="cursor: pointer">&nbsp;&nbsp;首页</b><b> / 新建</b></el-breadcrumb-item>
+          <el-breadcrumb-item :to="{path:'/index'}" ><b style="cursor: pointer;color: goldenrod">&nbsp;&nbsp;首页</b><b> / 新建</b></el-breadcrumb-item>
         </el-breadcrumb>
-        <hr/>
-        <br/>
+        </el-card>
       </el-col>
-      <el-form ref="originData" :model="originData"  label-width="120px" size="medium ">
-        <el-form-item label="类别" prop="category"  required>
-          <el-select v-model="originData.category" >
-            <el-option
-              v-for="item in category"
-              :key="item.label"
-              :label="item.label"
-              :value="item.value">
-            </el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="配送方式" prop="delivery"  required>
-          <el-select v-model="originData.delivery" >
-            <el-option
-              v-for="item in delivery"
-              :key="item.label"
-              :label="item.label"
-              :value="item.value">
-            </el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="商家名称" prop="spName" required>
-          <el-col :span="12">
-            <el-input  placeholder="请输入名称" v-model="originData.spName" clearable></el-input>
-          </el-col>
-        </el-form-item>
-        <el-form-item label="品牌商家" pror="isTradeMark" required>
-          <el-select v-model="originData.isTradeMark" >
-            <el-option
-              v-for="item in isTradeMark"
-              :key="item.label"
-              :label="item.label"
-              :value="item.value">
-            </el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="商家负责人" prop="leader"  required>
-          <el-col :span="8">
-            <el-input  placeholder="请输入负责人" v-model="originData.leader" clearable></el-input>
-          </el-col>
-        </el-form-item>
-        <el-form-item label="联系电话" prop="leaderPhone"  required>
-          <el-col :span="10">
-            <el-input  placeholder="请输入电话" v-model="originData.leaderPhone" type="telephone" clearable></el-input>
-          </el-col>
-        </el-form-item>
-        <el-form-item label="客服电话" prop="cusPhone"  required>
-          <el-col :span="10">
-            <el-input  placeholder="请输入电话" v-model="originData.cusPhone" clearable></el-input>
-          </el-col>
-        </el-form-item>
-        <el-form-item label="起送价" prop="deliPrice"  required>
-          <el-col :span="10">
-            <el-input  placeholder="请输入起送价" v-model="originData.deliPrice" clearable></el-input>
-          </el-col>
-        </el-form-item>
-        <el-form-item label="配送费" prop="dispatch"  required>
-          <el-col :span="10">
-            <el-input  placeholder="请输入配送费" v-model="originData.dispatch" clearable></el-input>
-          </el-col>
-        </el-form-item>
-        <el-form-item label="地址" prop="addressList"  required>
-          <el-cascader
-            :options="options2"
-            @active-item-change="handleItemChange"
-            :props="props"
-            v-model="originData.addressList"
-          ></el-cascader>
-        </el-form-item>
-        <el-form-item label="资质logo" prop="logo">
-          <el-upload
-            :auto-upload="false"
-            :action="uploadUrl"
-            list-type="picture-card"
-            ref="newUpload"
-            :data="uploadData"
-            :limit="4"
-            :file-list="pictureList"
-            :on-preview="handlePictureCardPreview"
-            :on-remove="handleRemove"
-            :before-upload="handleBefore"
-            :on-success="handPicSuccess">
-            <i class="el-icon-plus"></i>
-            <div class="el-upload__tip" slot="tip">只能上传jpg文件，且不超过500kb</div>
-          </el-upload>
-          <el-dialog :visible.sync="dialogVisible">
-            <img width="100%" :src="dialogImageUrl" alt="">
-          </el-dialog>
-        </el-form-item>
-        <el-form-item label="品牌商家文档" prop="world">
-          <el-upload
-            class="upload-demo"
-            :auto-upload="false"
-            :action="uploadUrlExcel"
-            ref="excUpload"
-            :limit="1"
-            :before-upload="handleBeforeExcel"
-            :on-exceed="handleExceed"
-            :on-success="handExSuccess"
-            :data="fileData"
-            :file-list="fileList">
-            <el-button size="small" type="primary">点击上传</el-button>
-            <div slot="tip" class="el-upload__tip">只能上传.xls和.xlsx的excel文件，且不超过1Mb,非品牌商家不会上传</div>
-          </el-upload>
-        </el-form-item>
-        <el-col><br/></el-col>
-        <el-form-item>
-          <el-button type="primary" @click="formSubmit()">提交</el-button>
-          <el-button type="danger" @click="resetForm('originData')">重置</el-button>
-        </el-form-item>
-      </el-form>
+        <br/>  <br/>  <br/> <br/>
+      <el-col :span="22" :offset="1">
+     <el-card >
+       <el-form ref="originData" :model="originData"  label-width="120px" size="medium ">
+         <el-form-item label="类别" prop="category"  required>
+           <el-select v-model="originData.category" >
+             <el-option
+               v-for="item in category"
+               :key="item.label"
+               :label="item.label"
+               :value="item.value">
+             </el-option>
+           </el-select>
+         </el-form-item>
+         <el-form-item label="配送方式" prop="delivery"  required>
+           <el-select v-model="originData.delivery" >
+             <el-option
+               v-for="item in delivery"
+               :key="item.label"
+               :label="item.label"
+               :value="item.value">
+             </el-option>
+           </el-select>
+         </el-form-item>
+         <el-form-item label="商家名称" prop="spName" required>
+           <el-col :span="12">
+             <el-input  placeholder="请输入名称" v-model="originData.spName" clearable></el-input>
+           </el-col>
+         </el-form-item>
+         <el-form-item label="品牌商家" pror="isTradeMark" required>
+           <el-select v-model="originData.isTradeMark" >
+             <el-option
+               v-for="item in isTradeMark"
+               :key="item.label"
+               :label="item.label"
+               :value="item.value">
+             </el-option>
+           </el-select>
+         </el-form-item>
+         <el-form-item label="商家负责人" prop="leader"  required>
+           <el-col :span="8">
+             <el-input  placeholder="请输入负责人" v-model="originData.leader" clearable></el-input>
+           </el-col>
+         </el-form-item>
+         <el-form-item label="联系电话" prop="leaderPhone"  required>
+           <el-col :span="10">
+             <el-input  placeholder="请输入电话" v-model="originData.leaderPhone" type="telephone" clearable></el-input>
+           </el-col>
+         </el-form-item>
+         <el-form-item label="客服电话" prop="cusPhone"  required>
+           <el-col :span="10">
+             <el-input  placeholder="请输入电话" v-model="originData.cusPhone" clearable></el-input>
+           </el-col>
+         </el-form-item>
+         <el-form-item label="起送价" prop="deliPrice"  required>
+           <el-col :span="10">
+             <el-input  placeholder="请输入起送价" v-model="originData.deliPrice" clearable></el-input>
+           </el-col>
+         </el-form-item>
+         <el-form-item label="配送费" prop="dispatch"  required>
+           <el-col :span="10">
+             <el-input  placeholder="请输入配送费" v-model="originData.dispatch" clearable></el-input>
+           </el-col>
+         </el-form-item>
+         <el-form-item label="地址" prop="addressList"  required>
+           <el-cascader
+             :options="options2"
+             @active-item-change="handleItemChange"
+             :props="props"
+             v-model="originData.addressList"
+           ></el-cascader>
+         </el-form-item>
+         <el-form-item label="资质logo" prop="logo">
+           <el-upload
+             :auto-upload="false"
+             :action="uploadUrl"
+             list-type="picture-card"
+             ref="newUpload"
+             :data="uploadData"
+             :limit="4"
+             :file-list="pictureList"
+             :on-preview="handlePictureCardPreview"
+             :on-remove="handleRemove"
+             :before-upload="handleBefore"
+             :on-success="handPicSuccess">
+             <i class="el-icon-plus"></i>
+             <div class="el-upload__tip" slot="tip">只能上传jpg文件，且不超过500kb</div>
+           </el-upload>
+           <el-dialog :visible.sync="dialogVisible">
+             <img width="100%" :src="dialogImageUrl" alt="">
+           </el-dialog>
+         </el-form-item>
+         <el-form-item label="品牌商家文档" prop="world">
+           <el-upload
+             class="upload-demo"
+             :auto-upload="false"
+             :action="uploadUrlExcel"
+             ref="excUpload"
+             :limit="1"
+             :before-upload="handleBeforeExcel"
+             :on-exceed="handleExceed"
+             :on-success="handExSuccess"
+             :data="fileData"
+             :file-list="fileList">
+             <el-button size="small" type="primary">点击上传</el-button>
+             <div slot="tip" class="el-upload__tip">只能上传.xls和.xlsx的excel文件，且不超过1Mb,非品牌商家不会上传</div>
+           </el-upload>
+         </el-form-item>
+         <el-col><br/></el-col>
+         <el-form-item>
+           <el-button type="primary" @click="formSubmit()">提交</el-button>
+           <el-button type="danger" @click="resetForm('originData')">重置</el-button>
+         </el-form-item>
+       </el-form>
+     </el-card>
+      </el-col>
     </el-row>
   </div>
 </template>
@@ -391,6 +396,21 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
+  .text {
+    font-size: 14px;
+  }
 
+  .item {
+    margin-bottom: 18px;
+  }
+
+  .clearfix:before,
+  .clearfix:after {
+    display: table;
+    content: "";
+  }
+  .clearfix:after {
+    clear: both
+  }
 </style>

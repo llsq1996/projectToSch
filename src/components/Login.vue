@@ -1,13 +1,10 @@
 <template>
   <div class="img1">
     <el-row >
-    <el-col :span="24">
-      <Head></Head>
-    </el-col>
     <el-col>
-      <br/> <br/> <br/> <br/>
+      <br/> <br/> <br/> <br/> <br/> <br/>
     </el-col>
-      <el-col :span="18" :offset="6">
+      <el-col :span="16" :offset="8">
         <el-form :model="originData" ref="originData" label-position="right" label-width="80px" size="medium" >
           <el-form-item label="用户" prop="user" >
             <el-col :span="6">

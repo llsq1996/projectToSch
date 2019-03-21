@@ -1,15 +1,17 @@
 <template>
   <div>
     <el-row>
-      <el-col>
-        <br/>
-        <el-breadcrumb separator="/">
-          <el-breadcrumb-item :to="{path:'/index'}" ><b style="cursor: pointer">&nbsp;&nbsp;首页</b><b> / 商家列表</b></el-breadcrumb-item>
-        </el-breadcrumb>
-        <hr/>
-        <br/>
+      <br/>
+      <el-col  :span="22" :offset="1">
+        <el-card >
+          <el-breadcrumb separator="/">
+            <el-breadcrumb-item :to="{path:'/index'}" ><b style="cursor: pointer;color: goldenrod">&nbsp;&nbsp;首页</b><b> / 商家列表</b></el-breadcrumb-item>
+          </el-breadcrumb>
+        </el-card>
       </el-col>
-      <el-col :span="23" :offset="1">
+      <br/>  <br/>  <br/> <br/>
+      <el-col  :span="22" :offset="1">
+        <el-card >
         <el-table
           :data="filterData.slice((currentPage-1)*pageSize,currentPage*pageSize)"
           size="medium"
@@ -78,6 +80,7 @@
           layout="total, prev, pager, next, jumper"
           :total="total">
         </el-pagination>
+        </el-card>
       </el-col>
     </el-row>
   </div>

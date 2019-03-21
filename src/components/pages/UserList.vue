@@ -1,15 +1,17 @@
 <template>
   <div>
     <el-row>
-      <el-col>
-        <br/>
-        <el-breadcrumb separator="/">
-          <el-breadcrumb-item :to="{path:'/index'}" ><b style="cursor: pointer">&nbsp;&nbsp;首页</b><b> / 人员列表</b></el-breadcrumb-item>
-        </el-breadcrumb>
-        <hr/>
-        <br/>
+      <br/>
+      <el-col  :span="22" :offset="1">
+        <el-card >
+          <el-breadcrumb separator="/">
+            <el-breadcrumb-item :to="{path:'/index'}" ><b style="cursor: pointer;color: goldenrod">&nbsp;&nbsp;首页</b><b> / 人员列表</b></el-breadcrumb-item>
+          </el-breadcrumb>
+        </el-card>
       </el-col>
-      <el-col :span="23" :offset="1">
+      <br/>  <br/>  <br/> <br/>
+      <el-col :span="22" :offset="1">
+        <el-card >
         <el-table
           :data="filterData.slice((currentPage-1)*pageSize,currentPage*pageSize)"
           size="medium"
@@ -17,9 +19,9 @@
           stripe
           style="width: 100%">
           <el-table-column prop="userId" label="id" width="100"></el-table-column>
-          <el-table-column prop="userName" label="人员名字" width="250"></el-table-column>
-          <el-table-column prop="isAdmin" label="审核权限" width="250"></el-table-column>
-          <el-table-column prop="isAudit" label="管理员权限" width="250"></el-table-column>
+          <el-table-column prop="userName" label="人员名字" width="200"></el-table-column>
+          <el-table-column prop="isAdmin" label="审核权限" width="230"></el-table-column>
+          <el-table-column prop="isAudit" label="管理员权限" width="230"></el-table-column>
           <el-table-column prop="doing" label="操作" width="200" fixed="right">
             <template slot-scope="scope">
             <el-button  type="primary" size="small" @click="Detail(scope.row.userId)">编辑</el-button>
@@ -36,6 +38,7 @@
           layout="total, prev, pager, next, jumper"
           :total="total">
         </el-pagination>
+        </el-card>
       </el-col>
     </el-row>
   </div>

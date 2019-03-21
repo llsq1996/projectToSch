@@ -1,26 +1,28 @@
 <template>
   <div>
     <el-row>
-      <el-col>
-        <br/>
-        <el-breadcrumb separator="/">
-          <el-breadcrumb-item :to="{path:'/index'}" ><b style="cursor: pointer">&nbsp;&nbsp;首页</b><b> / 人员统计</b></el-breadcrumb-item>
-        </el-breadcrumb>
-        <hr/>
-        <br/>
+      <br/>
+      <el-col  :span="22" :offset="1">
+        <el-card >
+          <el-breadcrumb separator="/">
+            <el-breadcrumb-item :to="{path:'/index'}" ><b style="cursor: pointer;color: goldenrod">&nbsp;&nbsp;首页</b><b> / 人员统计</b></el-breadcrumb-item>
+          </el-breadcrumb>
+        </el-card>
       </el-col>
+      <br/>  <br/>  <br/> <br/>
     </el-row>
         <el-row type="flex">
       <el-col :span="11" :offset="1">
         <br/>
+        <el-card>
         <el-table
           :data="filterData"
           size="medium"
           :highlight-current-row="true"
           stripe
           style="width: 100%">
-          <el-table-column prop="name" label="名字" width="250"></el-table-column>
-          <el-table-column prop="number" label="工作量" width="250">
+          <el-table-column prop="name" label="名字" width="200"></el-table-column>
+          <el-table-column prop="number" label="工作量" width="200">
             <template slot-scope="scope" style="width: 50%;">
               <el-popover trigger="hover" placement="right-start" >
                 <el-table
@@ -51,10 +53,13 @@
             </template>
           </el-table-column>
         </el-table>
+        </el-card>
       </el-col>
-      <el-col :span="12" >
+      <el-col :span="11" :offset="1">
+        <el-card>
         <div id="myChart" :style="{width: '600px', height: '400px'}">
         </div>
+        </el-card>
       </el-col>
     </el-row>
   </div>

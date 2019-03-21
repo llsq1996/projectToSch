@@ -1,14 +1,17 @@
 <template>
   <div >
     <el-row>
-      <el-col>
-        <br/>
-        <el-breadcrumb separator="/">
-          <el-breadcrumb-item :to="{path:'/index'}" ><b style="cursor: pointer">&nbsp;&nbsp;首页</b><b> / 品牌商家补录</b></el-breadcrumb-item>
-        </el-breadcrumb>
-        <hr/>
-        <br/>
+      <br/>
+      <el-col  :span="22" :offset="1">
+        <el-card >
+          <el-breadcrumb separator="/">
+            <el-breadcrumb-item :to="{path:'/index'}" ><b style="cursor: pointer;color: goldenrod">&nbsp;&nbsp;首页</b><b> / 品牌商家补录</b></el-breadcrumb-item>
+          </el-breadcrumb>
+        </el-card>
       </el-col>
+      <br/>  <br/>  <br/> <br/>
+      <el-col  :span="22" :offset="1">
+        <el-card >
       <el-form ref="originData" :model="originData" label-width="120px" size="medium ">
         <el-form-item label="品牌商家" pror="isTradeMark" required>
           <el-autocomplete
@@ -40,6 +43,8 @@
           <el-button type="primary" @click="formSubmit()">提交</el-button>
         </el-form-item>
       </el-form>
+        </el-card>
+      </el-col>
     </el-row>
   </div>
 </template>

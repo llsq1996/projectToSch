@@ -1,15 +1,17 @@
 <template>
   <div>
     <el-row>
-      <el-col>
-        <br/>
-        <el-breadcrumb separator="/">
-          <el-breadcrumb-item :to="{path:'/index'}" ><b style="cursor: pointer">&nbsp;&nbsp;首页</b><b> / 待审核列表</b></el-breadcrumb-item>
-        </el-breadcrumb>
-        <hr/>
-        <br/>
+      <br/>
+      <el-col  :span="22" :offset="1">
+        <el-card >
+          <el-breadcrumb separator="/">
+            <el-breadcrumb-item :to="{path:'/index'}" ><b style="cursor: pointer;color: goldenrod">&nbsp;&nbsp;首页</b><b> / 待审核列表</b></el-breadcrumb-item>
+          </el-breadcrumb>
+        </el-card>
       </el-col>
-      <el-col :span="23" :offset="1">
+      <br/>  <br/>  <br/> <br/>
+      <el-col  :span="22" :offset="1">
+        <el-card >
         <el-table
           :data="filterData.slice((currentPage-1)*pageSize,currentPage*pageSize)"
           size="medium"
@@ -17,8 +19,8 @@
           stripe
           style="width: 100%">
           <el-table-column prop="id" label="id" width="70"></el-table-column>
-          <el-table-column prop="name" label="名称" width="200"></el-table-column>
-          <el-table-column prop="submitter" label="提交人" width="180"></el-table-column>
+          <el-table-column prop="name" label="名称" width="150"></el-table-column>
+          <el-table-column prop="submitter" label="提交人" width="150"></el-table-column>
           <el-table-column prop="tradeMarkName" label="品牌名" width="200"></el-table-column>
           <el-table-column prop="CTime" label="上传日期" width="200"></el-table-column>
           <el-table-column prop="doing" label="操作" width="200" fixed="right">
@@ -37,6 +39,7 @@
           layout="total, prev, pager, next, jumper"
           :total="total">
         </el-pagination>
+        </el-card>
       </el-col>
     </el-row>
   </div>
