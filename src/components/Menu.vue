@@ -29,7 +29,7 @@
         </template>
         <el-menu-item-group>
           <el-menu-item index="/auditList">商家审核</el-menu-item>
-          <el-menu-item index="/auditList">审核列表</el-menu-item>
+          <el-menu-item index="/auditList2">已审核列表</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
 

@@ -5,7 +5,7 @@
       <el-col  :span="22" :offset="1">
         <el-card >
           <el-breadcrumb separator="/">
-            <el-breadcrumb-item :to="{path:'/index'}" ><b style="cursor: pointer;color: goldenrod">&nbsp;&nbsp;首页</b><b> / 待审核列表</b></el-breadcrumb-item>
+            <el-breadcrumb-item :to="{path:'/index'}" ><b style="cursor: pointer;color: goldenrod">&nbsp;&nbsp;首页</b><b> / 审核归档列表</b></el-breadcrumb-item>
           </el-breadcrumb>
         </el-card>
       </el-col>
@@ -22,10 +22,9 @@
           <el-table-column prop="name" label="名称" width="150"></el-table-column>
           <el-table-column prop="submitter" label="提交人" width="150"></el-table-column>
           <el-table-column prop="tradeMarkName" label="品牌名" width="200"></el-table-column>
-          <el-table-column prop="CTime" label="上传日期" width="200"></el-table-column>
-          <el-table-column prop="doing" label="操作" width="200" fixed="right">
+          <el-table-column prop="ETime" label="审核日期" width="200"></el-table-column>
+          <el-table-column prop="doing" label="操作" width="150" fixed="right">
             <template slot-scope="scope">
-            <el-button  type="primary" size="small" @click="Detail(scope.row.id,scope.row.name)">自动审核</el-button>
             <el-button type="primary" size="small" @click="download(scope.row.id,scope.row.name)">文档查看</el-button>
             </template>
           </el-table-column>
@@ -49,7 +48,7 @@
 export default {
   name: 'AuditList',
   created () {
-    this.$http.get('/api/auditList').then(ref => {
+    this.$http.get('/api/auditList2').then(ref => {
       if (ref.body.code === 1) {
         this.originData = ref.body.data
         console.log(this.originData)

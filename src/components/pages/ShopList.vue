@@ -111,7 +111,7 @@ export default {
       originData: [],
       filterData: [],
       currentPage: 1,
-      pageSize: 15,
+      pageSize: 10,
       pageSizeLists: [10, 15, 20, 25],
       total: 0
     }

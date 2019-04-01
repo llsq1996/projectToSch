@@ -14,6 +14,7 @@ import Category from '@/components/pages/CategoryCount'
 import AddCount from '@/components/pages/ShopAddCount'
 import UserCount from '@/components/pages/UserCount'
 import AuditList from '@/components/pages/AuditList'
+import AuditList2 from '@/components/pages/AuditList2'
 Vue.use(Router)
 export default new Router({
   routes: [
@@ -38,7 +39,7 @@ export default new Router({
       children: [
         {path: '/index', name: 'index', component: Index},
         {path: '/auditList', name: 'auditList', component: AuditList},
-        {path: '/shopList', name: 'shopList', component: ShopList}
+        {path: '/auditList2', name: 'auditList2', component: AuditList2}
       ]
     },
     {
