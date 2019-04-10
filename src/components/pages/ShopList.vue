@@ -12,15 +12,27 @@
       <br/>  <br/>  <br/> <br/>
       <el-col  :span="22" :offset="1">
         <el-card >
+          <el-tooltip content="支持搜索各属性" placement="top" effect="light" :hide-after=2000>
+            <el-input
+              placeholder="请输入搜索内容"
+              prefix-icon="el-icon-search"
+              clearable
+              @change="search"
+              v-model="searchWards"
+              style="width: 600px">
+              <el-button slot="append" icon="el-icon-search" @click="search"></el-button>
+            </el-input>
+          </el-tooltip>
         <el-table
           :data="filterData.slice((currentPage-1)*pageSize,currentPage*pageSize)"
           size="medium"
           :highlight-current-row="true"
           stripe
+          @sort-change="sort"
           style="width: 100%">
-          <el-table-column prop="id" label="id" width="70"></el-table-column>
-          <el-table-column prop="category" label="类别" width="120"></el-table-column>
-          <el-table-column prop="spName" label="商家名称" width="200">
+          <el-table-column prop="id" label="id" width="70"  sortable></el-table-column>
+          <el-table-column prop="category" label="类别" width="120" sortable></el-table-column>
+          <el-table-column prop="spName" label="商家名称" width="200" sortable>
             <template slot-scope="scope">
               <el-popover trigger="hover" placement="top">
                 <p>商家负责人: {{ scope.row.leader }}</p>
@@ -31,7 +43,7 @@
               </el-popover>
             </template>
           </el-table-column>
-          <el-table-column prop="isTradeMark" label="品牌商家" width="100">
+          <el-table-column prop="isTradeMark" label="品牌商家" width="100" sortable>
             <template slot-scope="scope">
               <el-popover trigger="hover" placement="top">
                 <p>地址: {{ scope.row.address }}</p>
@@ -41,7 +53,7 @@
               </el-popover>
             </template>
           </el-table-column>
-          <el-table-column prop="delivery" label="配送方式" width="100">
+          <el-table-column prop="delivery" label="配送方式" width="100" sortable>
             <template slot-scope="scope">
               <el-popover trigger="hover" placement="top">
                 <p>起送价: {{ scope.row.deliPrice }}</p>
@@ -52,7 +64,7 @@
               </el-popover>
             </template>
           </el-table-column>
-          <el-table-column prop="worker" label="录入人" width="100">
+          <el-table-column prop="worker" label="录入人" width="100" sortable>
             <template slot-scope="scope">
               <el-popover trigger="hover" placement="top">
                 <p>客服电话: {{ scope.row.cusPhone }}</p>
@@ -62,8 +74,8 @@
               </el-popover>
             </template>
           </el-table-column>
-          <el-table-column prop="CTime" label="创建时间" width="180"></el-table-column>
-          <el-table-column prop="ETime" label="修改时间" width="180"></el-table-column>
+          <el-table-column prop="CTime" label="创建时间" width="180" sortable></el-table-column>
+          <el-table-column prop="ETime" label="修改时间" width="180" sortable></el-table-column>
           <el-table-column prop="doing" label="操作" width="200" fixed="right">
             <template slot-scope="scope">
             <el-button  type="primary" size="small" @click="Detail(scope.row.id)">编辑</el-button>
@@ -95,7 +107,6 @@ export default {
         this.originData = ref.body.data
         console.log(this.originData)
         this.filterData = JSON.parse(JSON.stringify(this.originData))
-        console.log(this.filterData.length)
         this.total = this.filterData.length
       } else {
         this.$message({
@@ -113,7 +124,8 @@ export default {
       currentPage: 1,
       pageSize: 10,
       pageSizeLists: [10, 15, 20, 25],
-      total: 0
+      total: 0,
+      searchWards: ''
     }
   },
   methods: {
@@ -137,6 +149,19 @@ export default {
         }
       })
     },
+    search () {
+      console.log(this.searchWards)
+      let wards = this.searchWards.toLowerCase()
+      this.filterData = this.originData.filter(data => {
+        return (data.id.toString().toLowerCase().includes(wards)) ||
+         (data.category.toLowerCase().includes(wards)) ||
+        (data.spName.toLowerCase().includes(wards)) ||
+          (data.isTradeMark.toLowerCase().includes(wards)) ||
+          (data.delivery.toLowerCase().includes(wards)) ||
+          (data.worker.toLowerCase().includes(wards))
+      })
+      this.total = this.filterData.length
+    },
     // 跳转到详情页，携带id
     Detail (id) {
       console.log(id)
@@ -144,6 +169,92 @@ export default {
         params: {id: id},
         name: 'shopDetail'
       })
+    },
+    // 排序
+    sort (obj) {
+      console.log('sdfsd')
+      console.log(obj)
+      if (obj.prop === 'id') {
+        if (obj.order === 'descending') {
+          this.filterData.sort((a, b) => {
+            return b.id - a.id
+          })
+        } else if (obj.order === 'ascending') {
+          this.filterData.sort((a, b) => {
+            return a.id - b.id
+          })
+        }
+      } else if (obj.prop === 'category') {
+        if (obj.order === 'descending') {
+          this.filterData.sort((a, b) => {
+            return b.category - a.category
+          })
+        } else if (obj.order === 'ascending') {
+          this.filterData.sort((a, b) => {
+            return a.category - b.category
+          })
+        }
+      } else if (obj.prop === 'spName') {
+        if (obj.order === 'descending') {
+          this.filterData.sort((a, b) => {
+            return b.spName - a.spName
+          })
+        } else if (obj.order === 'ascending') {
+          this.filterData.sort((a, b) => {
+            return a.spName - b.spName
+          })
+        }
+      } else if (obj.prop === 'isTradeMark') {
+        if (obj.order === 'descending') {
+          this.filterData.sort((a, b) => {
+            return b.isTradeMark - a.isTradeMark
+          })
+        } else if (obj.order === 'ascending') {
+          this.filterData.sort((a, b) => {
+            return a.isTradeMark - b.isTradeMark
+          })
+        }
+      } else if (obj.prop === 'delivery') {
+        if (obj.order === 'descending') {
+          this.filterData.sort((a, b) => {
+            return b.delivery - a.delivery
+          })
+        } else if (obj.order === 'ascending') {
+          this.filterData.sort((a, b) => {
+            return a.delivery - b.delivery
+          })
+        }
+      } else if (obj.prop === 'worker') {
+        if (obj.order === 'descending') {
+          this.filterData.sort((a, b) => {
+            return b.worker - a.worker
+          })
+        } else if (obj.order === 'ascending') {
+          this.filterData.sort((a, b) => {
+            return a.worker - b.worker
+          })
+        }
+      } else if (obj.prop === 'CTime') {
+        if (obj.order === 'descending') {
+          this.filterData.sort((a, b) => {
+            return b.CTime - a.CTime
+          })
+        } else if (obj.order === 'ascending') {
+          this.filterData.sort((a, b) => {
+            return a.CTime - b.CTime
+          })
+        }
+      } else if (obj.prop === 'ETime') {
+        if (obj.order === 'descending') {
+          this.filterData.sort((a, b) => {
+            return b.ETime - a.ETime
+          })
+        } else if (obj.order === 'ascending') {
+          this.filterData.sort((a, b) => {
+            return a.ETime - b.ETime
+          })
+        }
+      }
     }
   }
 }

@@ -1,7 +1,7 @@
 <template>
   <div>
     <br/>
-    <el-row class="warp">
+    <el-row >
       <el-col :span="24" >
         <el-breadcrumb separator="/">
           <el-breadcrumb-item :to="{path:'/index'}" ><b style="cursor: pointer">&nbsp;&nbsp;首页</b></el-breadcrumb-item>

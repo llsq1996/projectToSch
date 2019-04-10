@@ -1,18 +1,18 @@
 <template>
-  <div style="background-color:#D2B48C ; height: 1020px;">
+  <div style="background-color:#545c64 ; height: 1020px;">
     <aside>
     <el-menu router
              class="el-menu-vertical-demo"
-             text-color="#ffff"
-             active-text-color="#000000"
-             background-color="#D2B48C "
+             background-color="#545c64"
+             text-color="#fff"
+             active-text-color="#ffd04b"
              @open="handleOpen"
              @close="handleClose"
              @Select="handleSelect"
     >
       <el-submenu index="/">
         <template slot="title">
-          <i class="el-icon-menu" style="color: #ffff"></i>
+          <i class="el-icon-menu" style="color: #ffd04b"></i>
           <span >商家管理</span>
         </template>
         <el-menu-item-group>
@@ -24,7 +24,7 @@
 
       <el-submenu index="/audit">
         <template slot="title">
-          <i class="el-icon-menu" style="color:#ffff"></i>
+          <i class="el-icon-menu" style="color:#ffd04b"></i>
           <span >审核管理</span>
         </template>
         <el-menu-item-group>
@@ -35,7 +35,7 @@
 
       <el-submenu index="/count">
         <template slot="title">
-          <i class="el-icon-menu" style="color: #ffff"></i>
+          <i class="el-icon-menu" style="color: #ffd04b"></i>
           <span >统计管理</span>
         </template>
         <el-menu-item-group>
@@ -46,7 +46,7 @@
       </el-submenu>
       <el-submenu index="/people">
         <template slot="title">
-          <i class="el-icon-menu" style="color:#ffff"></i>
+          <i class="el-icon-menu" style="color:#ffd04b"></i>
           <span >人员管理</span>
         </template>
         <el-menu-item-group>

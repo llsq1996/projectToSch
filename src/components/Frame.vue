@@ -45,14 +45,4 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
-.head{
-  width: 100%;
-  height: 10%;
-  background-color:#161d29 ;
-}
-  .aside{
-    width: 100%;
-    height:90%;
-    background-color:#21344f ;
-  }
 </style>

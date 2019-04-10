@@ -1,64 +1,163 @@
 <!--头部（Header.vue）-->
 <template>
-  <div>
-    <div class="topbar-title topbar-btn">
-      <span>后台管理系统</span>
+  <div >
+    <header id="header" class="header">
+      <div class="w1200">
+        <ul class="header-list">
+          <li><a href="#" @click="change">跑马灯</a></li>
+          <li><a href="#">评论区</a></li>
+          <li><a href="#">更多</a></li>
+          <li><a href="#">实例</a></li>
+          <li><a  href="#">
+            <el-dropdown>
+              <span class="el-dropdown-link"><span>下拉菜<i class="el-icon-arrow-down el-icon--right"></i></span></span>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item >蚵仔</el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown></a>
+          </li>
+        </ul>
+      </div>
+    </header>
+    <div style="color: gold;width: 500px;height: 300px;background-color: slategray;float: left">
+    <div >
+      <br/>
+     <p align="center">{{text}}</p>
     </div>
-    <div class="topbar-account topbar-btn">
-      <el-dropdown trigger="click">
-        <span class="el-dropdown-link userinfo-inner"><i class="iconfont icon-user"></i> {{sysUserName}}  <i class="iconfont icon-down"></i></span>
-        <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item @click.native="userinfo">个人信息</el-dropdown-item>
-          <el-dropdown-item @click.native="editpwd">修改密码</el-dropdown-item>
-          <el-dropdown-item divided @click.native="logout">退出登录</el-dropdown-item>
-        </el-dropdown-menu>
-      </el-dropdown>
+  </div>
+    <div style="color: slategray;width: 500px;height: 300px;float: left;background-color: antiquewhite;">
+      <div >
+        <br/>
+        <p align="center">评论区</p>
+        <p ><el-input v-model="things" style="width: 400px"></el-input><el-button @click="add" style="width: 100px">发表</el-button></p>
+        <p align="center" v-for="item in thingList" v-bind:key="item.id"><i >{{item.name}}: {{item.value}}</i></p>
+      </div>
+    </div>
+    <div style="color: brown;width: 500px;height: 300px;float: left;background-color: cadetblue;">
+      <div >
+        <br/>
+        <p align="center">{{text}}</p>
+      </div>
     </div>
   </div>
 </template>
-<script type="text/ecmascript-6">
+<script >
 export default {
   mounted () {
-    var userSession = this.getCookie('session')
-    if (userSession) {
-      this.sysUserName = userSession || ''
-    }
+
   },
   created () {
 
   },
   data () {
     return {
-      sysUserName: '',
-      sysUserAvatar: '',
-      collapsed: false
+      text: '当地群众自发走上街头，手持菊花，等候救火英烈归来。',
+      num: '',
+      flag: false,
+      things: '',
+      user: '薛庭政',
+      thingList: [
+        {
+          id: 0,
+          name: '项羽',
+          value: '吾乃西楚霸王是也！',
+          time: ''
+        }
+      ]
     }
   },
   methods: {
-    // 退出
-    logout () {
-      this.sysUserName = 'abc'
-      this.$confirm('确认要退出吗？', '提示', {}).then(() => {
-        this.$fetch('m/logout').then((res) => {
-          if (res.errCode === 200) {
-            this.delCookie('session')
-            this.delCookie('u_uuid')
-            this.$router.push({path: '/', query: {redirect: this.$router.currentRoute.fullPath}})
-          } else {
-            console.log(res.errMsg)
-          }
-        })
-      }).catch(() => {
+    change () {
+      if (this.flag) {
+        clearInterval(this.num)
+      } else {
+        this.num = setInterval(() => {
+          let str = this.text
+          this.text = str.substr(5) + str.substr(0, 5)
+        }, 500)
+      }
+      this.flag = !this.flag
+    },
+    add () {
+      let num = this.thingList.length
+      this.thingList.push({
+        id: num,
+        name: this.user,
+        value: this.things,
+        time: ''
       })
-    },
-    // 个人信息
-    userinfo () {
-      this.$router.push('/userinfo')
-    },
-    // 修改密码
-    editpwd () {
-      this.$router.push('/editpwd')
+      this.things = ''
     }
+
   }
 }
 </script>
+<style>
+  *{
+    margin:0;
+    padding:0;
+
+  }
+
+  body{
+    width: 100%;
+    min-width: 1200px;
+    font-family: "微软雅黑";
+  }
+
+  .header-list{
+    list-style: none;  /*去掉列表前面的标记*/
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .header-list li{
+    float: left;
+    line-height: 62px;
+    margin:0 50px;
+  }
+
+  .header-list li:hover{
+    background: #fff;
+  }
+
+  .header-list li a:hover{
+    color: #000;
+  }
+
+  .header-list li a{
+    text-decoration: none; /*清楚超链接的下划线*/
+    color: #fff;
+    padding: 0 10px;
+    display:block;    /*使整体变成可点击区域 使a和li成为一个整体*/
+
+  }
+
+  .header{
+    width: 100%;
+    height: 62px;
+    background: #333;
+    min-width: 1200px;
+    font-size: 14px;
+  }
+
+  .w1200{
+    width: 1200px;
+    height: 100%;
+    padding:0 100px;
+    margin:0 auto;
+    box-sizing:border-box;
+    position: relative;
+  }
+  .el-dropdown-link {
+    cursor: pointer;
+    color: #fff;
+  }
+  .el-dropdown-link span:hover{
+    cursor: pointer;
+    color: #000;
+  }
+  .el-icon-arrow-down {
+    font-size: 12px;
+  }
+</style>

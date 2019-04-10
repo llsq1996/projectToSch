@@ -15,13 +15,14 @@ import AddCount from '@/components/pages/ShopAddCount'
 import UserCount from '@/components/pages/UserCount'
 import AuditList from '@/components/pages/AuditList'
 import AuditList2 from '@/components/pages/AuditList2'
+import Test from '@/components/Test'
 Vue.use(Router)
 export default new Router({
   routes: [
     {
       path: '/',
       redirect: '/index',
-      name: 'index',
+      name: 'frame',
       component: Frame,
       children: [
         {path: '/index', name: 'index', component: Index},
@@ -34,7 +35,7 @@ export default new Router({
     {
       path: '/audit',
       redirect: '/index',
-      name: 'index',
+      name: 'audit',
       component: Frame,
       children: [
         {path: '/index', name: 'index', component: Index},
@@ -45,7 +46,7 @@ export default new Router({
     {
       path: '/count',
       redirect: '/index',
-      name: 'index',
+      name: 'count',
       component: Frame,
       children: [
         {path: '/index', name: 'index', component: Index},
@@ -57,7 +58,7 @@ export default new Router({
     {
       path: '/people',
       redirect: '/index',
-      name: 'index',
+      name: 'people',
       component: Frame,
       children: [
         {path: '/index', name: 'index', component: Index},
@@ -70,6 +71,11 @@ export default new Router({
       path: '/login',
       name: 'login',
       component: Login
+    },
+    {
+      path: '/test',
+      name: 'test',
+      component: Test
     }
 
     //   path: '/',

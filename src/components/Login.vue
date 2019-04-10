@@ -1,22 +1,22 @@
 <template>
-  <div class="img1">
+  <div class="login">
     <el-row >
     <el-col>
       <br/> <br/> <br/> <br/> <br/> <br/>
     </el-col>
       <el-col :span="16" :offset="8">
-        <el-form :model="originData" ref="originData" label-position="right" label-width="80px" size="medium" >
+        <el-form :model="originData" ref="originData" label-position="right"  size="medium" >
           <el-form-item label="用户" prop="user" >
             <el-col :span="6">
-              <el-input v-model="originData.user" clearable></el-input>
+              <el-input v-model="originData.user" clearable style="width: 250px"></el-input>
             </el-col>
           </el-form-item>
           <el-form-item label="密码" prop="password" >
             <el-col :span="6">
-              <el-input type="password" v-model="originData.password" clearable></el-input>
+              <el-input type="password" v-model="originData.password" clearable style="width: 250px"></el-input>
             </el-col>
           </el-form-item>
-          <el-form-item>
+          <el-form-item label-width="80px">
             <el-button type="primary" @click="login()">登录</el-button>
             <el-button type="danger" @click="resetForm('originData')">重置</el-button>
           </el-form-item>
@@ -76,10 +76,11 @@ export default {
 </script>
 
 <style scoped>
-  .img1{
+  .login{
     width: 1400px;
     height: 675px;
-    background: url('../assets/test.jpg') center center no-repeat;
-    background-size: 1400px;
+    background-color: #eaeaea;
+    /*background-size: 1400px;*/
   }
+  /*url('../assets/test.jpg') center center no-repeat;*/
 </style>

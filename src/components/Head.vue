@@ -3,9 +3,9 @@
     <el-menu router
              class="el-menu-vertical-demo"
              mode="horizontal"
-             text-color="#ffff"
-             active-text-color=" #000000"
-             background-color="#D2B48C "
+             background-color="#545c64"
+             text-color="#fff"
+             active-text-color="#ffd04b"
              @open="handleOpen"
              @close="handleClose"
              @Select="handleSelect"
