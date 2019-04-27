@@ -28,8 +28,9 @@
           <span >审核管理</span>
         </template>
         <el-menu-item-group>
-          <el-menu-item index="/auditList">商家审核</el-menu-item>
-          <el-menu-item index="/auditList2">已审核列表</el-menu-item>
+          <el-menu-item index="/auditPicList">商家资质审核</el-menu-item>
+          <el-menu-item index="/auditList">品牌商家审核</el-menu-item>
+          <el-menu-item index="/auditList2">审核归档列表</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
 

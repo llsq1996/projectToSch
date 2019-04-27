@@ -13,6 +13,7 @@ import ShopSupplement from '@/components/pages/ShopSupplement'
 import Category from '@/components/pages/CategoryCount'
 import AddCount from '@/components/pages/ShopAddCount'
 import UserCount from '@/components/pages/UserCount'
+import AuditPicList from '@/components/pages/AuditPicList'
 import AuditList from '@/components/pages/AuditList'
 import AuditList2 from '@/components/pages/AuditList2'
 import Test from '@/components/Test'
@@ -40,6 +41,7 @@ export default new Router({
       children: [
         {path: '/index', name: 'index', component: Index},
         {path: '/auditList', name: 'auditList', component: AuditList},
+        {path: '/auditPicList', name: 'auditPicList', component: AuditPicList},
         {path: '/auditList2', name: 'auditList2', component: AuditList2}
       ]
     },

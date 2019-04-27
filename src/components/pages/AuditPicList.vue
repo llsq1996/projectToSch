@@ -5,7 +5,7 @@
       <el-col  :span="22" :offset="1">
         <el-card >
           <el-breadcrumb separator="/">
-            <el-breadcrumb-item :to="{path:'/index'}" ><b style="cursor: pointer;color: goldenrod">&nbsp;&nbsp;首页</b><b> / 文档审核列表</b></el-breadcrumb-item>
+            <el-breadcrumb-item :to="{path:'/index'}" ><b style="cursor: pointer;color: goldenrod">&nbsp;&nbsp;首页</b><b> / 资质审核列表</b></el-breadcrumb-item>
           </el-breadcrumb>
         </el-card>
       </el-col>
@@ -30,15 +30,32 @@
           stripe
           @sort-change="sort"
           style="width: 100%">
+          <el-table-column type="expand">
+            <template slot-scope="scope">
+              <el-form label-position="left" inline class="demo-table-expand">
+                <el-form-item label="商家负责人">
+                  <span>{{ scope.row.leader }}</span>
+                </el-form-item>
+                <el-form-item label="联系方式">
+                  <span>{{ scope.row.leaderPhone }}</span>
+                </el-form-item>
+                <el-form-item label="资质图片">
+                  <template slot-scope="props">
+                  <img style="width: 350px; height: 200px"
+                    :src="getUrl(scope.row.id,scope.row.picAddress)">
+                  </template>
+                </el-form-item>
+              </el-form>
+            </template>
+          </el-table-column>
           <el-table-column prop="id" label="id" width="70" sortable></el-table-column>
-          <el-table-column prop="name" label="名称" width="150" ></el-table-column>
-          <el-table-column prop="submitter" label="提交人" width="150" ></el-table-column>
-          <el-table-column prop="tradeMarkName" label="品牌名" width="180" ></el-table-column>
+          <el-table-column prop="spName" label="商家名称" width="200" sortable></el-table-column>
+          <el-table-column prop="worker" label="提交人" width="150" ></el-table-column>
           <el-table-column prop="CTime" label="上传日期" width="200" sortable></el-table-column>
           <el-table-column prop="doing" label="操作" width="200" fixed="right">
             <template slot-scope="scope">
             <el-button  type="primary" size="small" @click="Detail(scope.row.id)">自动审核</el-button>
-            <el-button type="primary" size="small" @click="download(scope.row.id)">文档查看</el-button>
+            <!--<el-button type="primary" size="small" @click="download(scope.row.id,scope.row.name)">文档查看</el-button>-->
             </template>
           </el-table-column>
         </el-table>
@@ -61,7 +78,7 @@
 export default {
   name: 'AuditList',
   created () {
-    this.$http.get('/api/auditList').then(ref => {
+    this.$http.get('/api/shopList?key=3').then(ref => {
       if (ref.body.code === 1) {
         this.originData = ref.body.data
         console.log(this.originData)
@@ -97,6 +114,11 @@ export default {
       console.log(`当前页: ${val}`)
       this.currentPage = val
     },
+    getUrl (id, url) {
+      console.log(id)
+      console.log(url)
+      return '/api/downloadPic?id=' + id
+    },
     download (id) {
       this.$message.info('正在下载')
       window.location.href = '/api/download?id=' + id
@@ -106,26 +128,24 @@ export default {
       let wards = this.searchWards.toLowerCase()
       this.filterData = this.originData.filter(data => {
         return (data.id.toString().toLowerCase().includes(wards)) ||
-          (data.name.toLowerCase().includes(wards)) ||
-          (data.submitter.toLowerCase().includes(wards)) ||
-          (data.tradeMarkName.toLowerCase().includes(wards))
+          (data.category.toLowerCase().includes(wards)) ||
+          (data.spName.toLowerCase().includes(wards)) ||
+          (data.isTradeMark.toLowerCase().includes(wards)) ||
+          (data.delivery.toLowerCase().includes(wards)) ||
+          (data.worker.toLowerCase().includes(wards))
       })
       this.total = this.filterData.length
     },
     Detail (id) {
       console.log(id)
-      let name = this.Cookie.getCookie('user')
-      if (name) {
-        name = unescape(name)
-      }
-      this.$http.get('/api/auditExcel?id=' + id+'&name='+name).then(ref => {
+      this.$http.get('/api/auditPic?id=' + id).then(ref => {
         if (ref.body.code === 1) {
-          this.$message.success('审核通过，已添加')
-          this.filterData = this.filterData.filter(x => x.id !== id)
+          this.$message.success('审核完成，已通过')
         } else {
-          this.$message.error('审核失败，' + ref.body.msg)
+          this.$message.error('审核完成，' + ref.body.msg)
         }
       })
+      this.filterData = this.filterData.filter(x => x.id !== id)
       // this.$router.push({
       //   params: {id: id},
       //   name: 'shopDetail'
@@ -151,6 +171,17 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style>
+  .demo-table-expand {
+    font-size: 0;
+  }
+  .demo-table-expand label {
+    width: 90px;
+    color: #99a9bf;
+  }
+  .demo-table-expand .el-form-item {
+    margin-right: 0;
+    margin-bottom: 0;
+    width: 50%;
+  }
 </style>

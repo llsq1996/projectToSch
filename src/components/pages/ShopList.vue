@@ -11,6 +11,15 @@
       </el-col>
       <br/>  <br/>  <br/> <br/>
       <el-col  :span="22" :offset="1">
+        <el-switch
+          v-model="key"
+          @change="getShopList"
+          inactive-text="商家列表"
+          active-text="线下商家列表"
+          active-value=2
+          inactive-value=1
+          inactive-color="#13ce66">
+        </el-switch>
         <el-card >
           <el-tooltip content="支持搜索各属性" placement="top" effect="light" :hide-after=2000>
             <el-input
@@ -102,20 +111,7 @@
 export default {
   name: 'ShopList',
   created () {
-    this.$http.get('/api/shopList').then(ref => {
-      if (ref.body.code === 1) {
-        this.originData = ref.body.data
-        console.log(this.originData)
-        this.filterData = JSON.parse(JSON.stringify(this.originData))
-        this.total = this.filterData.length
-      } else {
-        this.$message({
-          showClose: true,
-          message: '服务器返回错误',
-          type: 'error'
-        })
-      }
-    })
+    this.getShopList(this.key)
   },
   data () {
     return {
@@ -125,7 +121,8 @@ export default {
       pageSize: 10,
       pageSizeLists: [10, 15, 20, 25],
       total: 0,
-      searchWards: ''
+      searchWards: '',
+      key: 1
     }
   },
   methods: {
@@ -137,13 +134,31 @@ export default {
       console.log(`当前页: ${val}`)
       this.currentPage = val
     },
+    getShopList (key) {
+      let str = '/api/shopList?key=' + key
+      console.log(str)
+      this.$http.get(str).then(ref => {
+        if (ref.body.code === 1) {
+          this.originData = ref.body.data
+          console.log(this.originData)
+          this.filterData = JSON.parse(JSON.stringify(this.originData))
+          this.total = this.filterData.length
+        } else {
+          this.$message({
+            showClose: true,
+            message: '服务器返回错误',
+            type: 'error'
+          })
+        }
+      })
+    },
     // 向后台发送请求逻辑删除该门店，并刷新页面
     Del (id) {
       console.log(id)
       this.$http.get('/api/shopDelete?id=' + id).then(ref => {
         if (ref.body.code === 1) {
           this.$message.success('删除成功')
-          location.reload()
+          this.filterData = this.filterData.filter(x => x.id !== id)
         } else {
           this.$message.error('服务错误')
         }

@@ -39,6 +39,22 @@
         <p align="center">{{text}}</p>
       </div>
     </div>
+    <div style="color: brown;width: 500px;height: 300px;float: left;background-color: cadetblue;">
+      <div >
+        <br/>
+        <!--<div v-for="item in date" >-->
+          <!--<p>{{item.ti}}</p>-->
+          <!--<br/>-->
+          <!--<el-radio v-model="item.answer" label="A"></el-radio>-->
+          <!--<el-radio v-model="item.answer" label="B"></el-radio>-->
+          <!--<el-radio v-model="item.answer" label="C"></el-radio>-->
+          <!--<el-radio v-model="item.answer" label="D"></el-radio>-->
+        <!--</div>-->
+        <img
+          style="width: 100px; height: 100px"
+          src='/api/downloadPic?id=34'>
+      </div>
+    </div>
   </div>
 </template>
 <script >
@@ -63,6 +79,10 @@ export default {
           value: '吾乃西楚霸王是也！',
           time: ''
         }
+      ],
+      ti:'翻译nice to meet you.',
+      answer:'',
+      date:[
       ]
     }
   },

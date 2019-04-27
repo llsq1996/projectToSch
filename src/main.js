@@ -10,6 +10,7 @@ import {setCookie, getCookie, delCookie} from './util/util.js'
 Vue.config.productionTip = false
 Vue.use(ElementUI)
 Vue.use(VueResource)
+// 提交表单格式允许json
 Vue.http.options.emulateJSON = true
 Vue.prototype.Cookie = {setCookie, getCookie, delCookie}
 /* eslint-disable no-new */
