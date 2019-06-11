@@ -1,9 +1,9 @@
 <template>
   <div>
     <!--<img src="./assets/logo.png">-->
-    <div >
-      <el-button @click="change" type="primary">跳转</el-button>
-    </div>
+    <!--<div >-->
+      <!--<el-button @click="change" type="primary">跳转</el-button>-->
+    <!--</div>-->
     <div >
    <router-view/>
     </div>

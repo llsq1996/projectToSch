@@ -3,7 +3,7 @@
     <el-row>
         <br/>
       <el-col  :span="22" :offset="1">
-        <el-card >
+        <el-card>
         <el-breadcrumb separator="/">
           <el-breadcrumb-item :to="{path:'/index'}" ><b style="cursor: pointer;color: goldenrod">&nbsp;&nbsp;首页</b><b> / 新建</b></el-breadcrumb-item>
         </el-breadcrumb>
@@ -11,7 +11,7 @@
       </el-col>
         <br/>  <br/>  <br/> <br/>
       <el-col :span="22" :offset="1">
-     <el-card >
+     <el-card>
        <el-form ref="originData" :model="originData"  label-width="120px" size="medium ">
          <el-form-item label="类别" prop="category"  required>
            <el-select v-model="originData.category" >

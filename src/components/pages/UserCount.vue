@@ -143,6 +143,13 @@ export default {
       // 绘制图表
       myChart.setOption(this.option)
     },
+    Detail (id) {
+      console.log(id)
+      this.$router.push({
+        params: {id: id},
+        name: 'shopDetail'
+      })
+    },
     init () {
       this.$http.get('/api/userCount').then(ref => {
         if (ref.body.code === 1) {
